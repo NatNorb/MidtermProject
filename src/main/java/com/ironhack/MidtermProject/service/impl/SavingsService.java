@@ -48,4 +48,8 @@ public class SavingsService implements ISavingsService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id doesn't exist.");
         }
     }
+
+    public void addInterest(){
+
+    }
 }

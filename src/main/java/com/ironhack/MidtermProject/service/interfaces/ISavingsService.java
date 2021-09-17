@@ -6,4 +6,5 @@ public interface ISavingsService {
 
     Savings createSavings(Savings savings);
     void modifySavingsBalance(Long id, Savings savings);
+    void addInterest();
 }

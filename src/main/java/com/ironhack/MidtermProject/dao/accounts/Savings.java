@@ -33,15 +33,18 @@ public class Savings extends Account{
     }
 
     public void setInterestRate(double interestRate){
-        if (interestRate <= 0 || interestRate > 0.5){
+        if (interestRate <= 0.0 || interestRate > 0.5){
             this.interestRate = 0.0025;
-        } this.interestRate = interestRate;
+        } else {this.interestRate = interestRate;
+        }
     }
 
     public void setMinimumBalance(int minimumBalance) {
         if (minimumBalance < 100){
             this.minimumBalance = 1000;
-        } this.minimumBalance = minimumBalance;
+        } else {
+            this.minimumBalance = minimumBalance;
+        }
     }
 
     // TODO: 12.09.2021 If any account drops below the minimumBalance,

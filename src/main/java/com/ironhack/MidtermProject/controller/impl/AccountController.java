@@ -58,4 +58,9 @@ public class AccountController implements IAccountController {
 
     }
 
+    @PutMapping("/penaltyFee")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void penaltyFee(){
+        accountService.penaltyFee();
+    }
 }

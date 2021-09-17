@@ -23,8 +23,13 @@ public class Address {
     private String number;
     private String postCode;
 
-    @OneToOne (mappedBy = "primaryAddress")
-    private AccountHolder accountHolder;
+    //@OneToOne (mappedBy = "primaryAddress")
+    //private AccountHolder accountHolder;
 
-
+    public Address(String city, String street, String number, String postCode) {
+        this.city = city;
+        this.street = street;
+        this.number = number;
+        this.postCode = postCode;
+    }
 }

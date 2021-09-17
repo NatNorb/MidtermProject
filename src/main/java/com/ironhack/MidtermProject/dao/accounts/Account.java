@@ -1,5 +1,6 @@
 package com.ironhack.MidtermProject.dao.accounts;
 
+import com.ironhack.MidtermProject.dao.Money;
 import com.ironhack.MidtermProject.dao.users.AccountHolder;
 import com.ironhack.MidtermProject.enums.Status;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Optional;
+import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,4 +40,17 @@ public abstract class Account {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "acc_holder_id")
     private AccountHolder accountHolder;
+
+    public Account(double balance, String secretKey, String primaryOwner,
+                   String secondaryOwner, AccountHolder accountHolder) {
+        this.balance = balance;
+        this.secretKey = secretKey; //UUID.randomUUID();
+        this.primaryOwner = primaryOwner;
+        this.secondaryOwner = secondaryOwner;
+        this.creationDate = LocalDate.now();
+        this.status = Status.ACTIVE;
+        this.accountHolder = accountHolder;
+    }
+
+
 }

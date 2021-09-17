@@ -29,7 +29,14 @@ public class AccountHolder {
     @JoinColumn(name = "address_id")
     private Address primaryAddress;
 
-//    @OneToMany(mappedBy = "accountHolder")
+    public AccountHolder(String name, LocalDate dateOfBirth, String mailingAddress, Address primaryAddress) {
+        this.name = name;
+        this.dateOfBirth = dateOfBirth;
+        this.mailingAddress = mailingAddress;
+        this.primaryAddress = primaryAddress;
+    }
+
+    //    @OneToMany(mappedBy = "accountHolder")
 //    private Set<Checking> checking;
 
 }

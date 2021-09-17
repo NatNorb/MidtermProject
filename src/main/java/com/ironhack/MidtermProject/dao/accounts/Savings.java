@@ -1,5 +1,6 @@
 package com.ironhack.MidtermProject.dao.accounts;
 
+import com.ironhack.MidtermProject.dao.Money;
 import com.ironhack.MidtermProject.dao.users.AccountHolder;
 import com.ironhack.MidtermProject.enums.Status;
 import lombok.AllArgsConstructor;
@@ -16,15 +17,20 @@ import java.util.Optional;
 @NoArgsConstructor
 @Getter
 @Setter
-@DiscriminatorValue("savings")
+@DiscriminatorValue("saving")
 public class Savings extends Account{
 
     private int minimumBalance;
     private double interestRate;
 
 
+    public Savings(double balance, String secretKey, String primaryOwner, String secondaryOwner, AccountHolder accountHolder, int minimumBalance, double interestRate) {
+        super(balance, secretKey,primaryOwner, secondaryOwner, accountHolder);
+        setMinimumBalance(minimumBalance);
+        setInterestRate(interestRate);
+    }
 
-    public void SetInterestRate(double interestRate){
+    public void setInterestRate(double interestRate){
         if (interestRate <= 0 || interestRate > 0.5){
             this.interestRate = 0.0025;
         } this.interestRate = interestRate;

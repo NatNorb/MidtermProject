@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ public class Savings extends Account{
     private double interestRate;
 
 
-    public Savings(double balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder,
+    public Savings(BigDecimal balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder,
                    int minimumBalance, double interestRate) {
         super(balance, primaryOwner, secondaryOwner, accountHolder);
         setMinimumBalance(minimumBalance);

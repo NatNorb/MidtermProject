@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Entity
@@ -21,7 +22,7 @@ public class Checking extends Account{
     private final int minimumBalance = 250;
     private final int monthlyMaintenanceFee = 12;
 
-    public Checking(double balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder) {
+    public Checking(BigDecimal balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder) {
         super(balance, primaryOwner, secondaryOwner, accountHolder);
     }
 

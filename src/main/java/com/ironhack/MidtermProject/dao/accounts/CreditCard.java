@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -23,7 +24,7 @@ public class CreditCard extends Account{
     private int creditLimit;
     private double interestRate;
 
-    public CreditCard(double balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder,
+    public CreditCard(BigDecimal balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder,
                       int creditLimit, double interestRate) {
         super(balance, primaryOwner, secondaryOwner, accountHolder);
         setCreditLimit(creditLimit);

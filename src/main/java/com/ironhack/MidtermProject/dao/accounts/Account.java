@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,7 +28,7 @@ public abstract class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double balance;
+    private BigDecimal balance;
     private UUID secretKey;
     private String primaryOwner;
     private String secondaryOwner;
@@ -41,7 +42,7 @@ public abstract class Account {
     @JoinColumn(name = "acc_holder_id")
     private AccountHolder accountHolder;
 
-    public Account(double balance, String primaryOwner,
+    public Account(BigDecimal balance, String primaryOwner,
                    String secondaryOwner, AccountHolder accountHolder) {
         this.balance = balance;
         this.secretKey = UUID.randomUUID();

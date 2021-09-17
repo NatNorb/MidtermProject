@@ -1,12 +1,13 @@
 package com.ironhack.MidtermProject.dao;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import java.math.RoundingMode;
 import java.math.BigDecimal;
 import java.util.Currency;
 
-
+@Embeddable
 public class Money {
 
     private static final Currency USD = Currency.getInstance("USD");
@@ -37,6 +38,8 @@ public class Money {
     public Money(BigDecimal amount) {
         this(amount, USD, DEFAULT_ROUNDING);
     }
+
+
 
     public BigDecimal increaseAmount(Money money) {
         setAmount(this.amount.add(money.amount));

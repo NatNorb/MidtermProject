@@ -27,7 +27,12 @@ public abstract class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double balance;
+    @AttributeOverrides({
+            @AttributeOverride(name = "amount", column = @Column(name = "balance"))
+    })
+    @Embedded
+    private Money balance;
+
     private UUID secretKey;
     private String primaryOwner;
     private String secondaryOwner;
@@ -41,7 +46,7 @@ public abstract class Account {
     @JoinColumn(name = "acc_holder_id")
     private AccountHolder accountHolder;
 
-    public Account(double balance, String primaryOwner,
+    public Account(Money balance, String primaryOwner,
                    String secondaryOwner, AccountHolder accountHolder) {
         this.balance = balance;
         this.secretKey = UUID.randomUUID();

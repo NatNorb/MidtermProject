@@ -61,7 +61,7 @@ public class AccountController implements IAccountController {
         return checkingRepository.findAll();
   }
 
-    @GetMapping("/saving")
+    @GetMapping("/savings")
     @ResponseStatus(HttpStatus.OK)
     public List<Savings> searchSaving() {
         return savingsRepository.findAll();
@@ -91,4 +91,23 @@ public class AccountController implements IAccountController {
     public Account createCreditCard(@RequestBody @Valid CreditCard creditCard){
         return creditCardService.createCreditCard(creditCard);
     }
+
+    //Admins should be able to access the balance for any account and to modify it.
+
+    @PatchMapping("/checking/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void modifyCheckingBalance(@PathVariable Long id, @RequestBody @Valid Checking checking){
+        checkingService.modifyCheckingBalance(id, checking);
+    }
+    @PatchMapping("/savings/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void modifySavingsBalance(@PathVariable Long id, @RequestBody @Valid Savings savings){
+        savingsService.modifySavingsBalance(id, savings);
+    }
+    @PatchMapping("/creditcard/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void modifyCreditCardBalance(@PathVariable Long id, @RequestBody @Valid CreditCard creditCard){
+        creditCardService.modifyCreditCardBalance(id, creditCard);
+    }
+
 }

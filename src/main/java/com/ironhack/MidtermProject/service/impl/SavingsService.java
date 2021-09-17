@@ -1,6 +1,7 @@
 package com.ironhack.MidtermProject.service.impl;
 
 import com.ironhack.MidtermProject.dao.accounts.Account;
+import com.ironhack.MidtermProject.dao.accounts.Checking;
 import com.ironhack.MidtermProject.dao.accounts.Savings;
 import com.ironhack.MidtermProject.repository.accounts.AccountRepository;
 import com.ironhack.MidtermProject.repository.accounts.SavingsRepository;
@@ -35,6 +36,16 @@ public class SavingsService implements ISavingsService {
 
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id already exists in the system.");
+        }
+    }
+
+    public void modifySavingsBalance(Long id, Savings savings){
+        Optional<Savings> s = savingsRepository.findById(id);
+        if (s.isPresent()){
+            s.get().setBalance(savings.getBalance());
+            savingsRepository.save(s.get());
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id doesn't exist.");
         }
     }
 }

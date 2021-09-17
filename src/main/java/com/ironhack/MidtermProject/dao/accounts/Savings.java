@@ -13,7 +13,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @Entity
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -24,7 +24,8 @@ public class Savings extends Account{
     private double interestRate;
 
 
-    public Savings(double balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder, int minimumBalance, double interestRate) {
+    public Savings(double balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder,
+                   int minimumBalance, double interestRate) {
         super(balance, primaryOwner, secondaryOwner, accountHolder);
         setMinimumBalance(minimumBalance);
         setInterestRate(interestRate);

@@ -41,6 +41,16 @@ public class CheckingService implements ICheckingService {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id already exists in the system.");
             }
     }
+
+    public void modifyCheckingBalance(Long id, Checking checking){
+        Optional<Checking> ch = checkingRepository.findById(id);
+        if (ch.isPresent()){
+                ch.get().setBalance(checking.getBalance());
+                checkingRepository.save(ch.get());
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id doesn't exist.");
+        }
+    }
 }
 
 

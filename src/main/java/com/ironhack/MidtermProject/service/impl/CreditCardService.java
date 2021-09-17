@@ -1,6 +1,7 @@
 package com.ironhack.MidtermProject.service.impl;
 
 import com.ironhack.MidtermProject.dao.accounts.Account;
+import com.ironhack.MidtermProject.dao.accounts.Checking;
 import com.ironhack.MidtermProject.dao.accounts.CreditCard;
 import com.ironhack.MidtermProject.dao.accounts.Savings;
 import com.ironhack.MidtermProject.repository.accounts.AccountRepository;
@@ -36,6 +37,16 @@ public class CreditCardService implements ICreditCardService {
 
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id already exists in the system.");
+        }
+    }
+
+    public void modifyCreditCardBalance(Long id, CreditCard creditCard){
+        Optional<CreditCard> cc = creditCardRepository.findById(id);
+        if (cc.isPresent()){
+            cc.get().setBalance(creditCard.getBalance());
+            creditCardRepository.save(cc.get());
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id doesn't exist.");
         }
     }
 }

@@ -10,6 +10,7 @@ import org.apache.el.stream.Optional;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Set;
 
 @Entity
@@ -29,12 +30,18 @@ public class AccountHolder {
     @JoinColumn(name = "address_id")
     private Address primaryAddress;
 
+
     public AccountHolder(String name, LocalDate dateOfBirth, String mailingAddress, Address primaryAddress) {
         this.name = name;
         this.dateOfBirth = dateOfBirth;
         this.mailingAddress = mailingAddress;
         this.primaryAddress = primaryAddress;
     }
+
+    public int howOld() {
+        return Period.between(this.dateOfBirth,LocalDate.now()).getYears();
+    }
+
 
     //    @OneToMany(mappedBy = "accountHolder")
 //    private Set<Checking> checking;

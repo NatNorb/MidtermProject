@@ -28,7 +28,7 @@ public abstract class Account {
     private Long id;
 
     private double balance;
-    private String secretKey;
+    private UUID secretKey;
     private String primaryOwner;
     private String secondaryOwner;
     private final int PENALTY_FEE = 40;
@@ -41,10 +41,10 @@ public abstract class Account {
     @JoinColumn(name = "acc_holder_id")
     private AccountHolder accountHolder;
 
-    public Account(double balance, String secretKey, String primaryOwner,
+    public Account(double balance, String primaryOwner,
                    String secondaryOwner, AccountHolder accountHolder) {
         this.balance = balance;
-        this.secretKey = secretKey; //UUID.randomUUID();
+        this.secretKey = UUID.randomUUID();
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
         this.creationDate = LocalDate.now();

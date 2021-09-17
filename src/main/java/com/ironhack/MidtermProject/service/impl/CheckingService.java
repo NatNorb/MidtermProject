@@ -1,8 +1,12 @@
 package com.ironhack.MidtermProject.service.impl;
 
 import com.ironhack.MidtermProject.dao.accounts.Checking;
+import com.ironhack.MidtermProject.dao.accounts.StudentChecking;
 import com.ironhack.MidtermProject.dao.users.AccountHolder;
+import com.ironhack.MidtermProject.repository.accounts.AccountRepository;
 import com.ironhack.MidtermProject.repository.accounts.CheckingRepository;
+import com.ironhack.MidtermProject.repository.accounts.StudentCheckingRepository;
+import com.ironhack.MidtermProject.repository.users.AccountHolderRepository;
 import com.ironhack.MidtermProject.service.interfaces.ICheckingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,23 +20,27 @@ public class CheckingService implements ICheckingService {
 
     @Autowired
     public CheckingRepository checkingRepository;
+    @Autowired
+    public StudentCheckingRepository studentCheckingRepository;
+    @Autowired
+    public AccountHolderRepository accountHolderRepository;
 
-    public Checking createChecking(Checking checking){
+    public Checking createChecking(Checking checking) {
         Optional<Checking> ch = checkingRepository.findById(checking.getId());
-        if (ch.isEmpty()){
-            try{
-                Checking newChecking = new Checking(checking.getBalance(), checking.getSecretKey(), checking.getPrimaryOwner(),
+
+        if (ch.isEmpty()) {
+                Checking newChecking = new Checking(checking.getBalance(), checking.getPrimaryOwner(),
                         checking.getSecondaryOwner(), checking.getAccountHolder());
                 return checkingRepository.save(newChecking);
-            } catch (Exception e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Department and / or status values not valid.");
-            }
 
+//            } else if (ch.isEmpty() && checking.getAccountHolder().getAge() <= 24) {
+//                StudentChecking newStudentChecking = new StudentChecking(checking.getBalance(), checking.getPrimaryOwner(),
+//                    checking.getSecondaryOwner(), checking.getAccountHolder());
+//                return studentCheckingRepository.save(newStudentChecking);
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id already exists in the system.");
-        }
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id already exists in the system.");
             }
-
+    }
 }
 
 

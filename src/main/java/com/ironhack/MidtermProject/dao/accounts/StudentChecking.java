@@ -17,4 +17,8 @@ import java.util.Optional;
 @DiscriminatorValue("student")
 public class StudentChecking extends Account {
 
+    public StudentChecking(double balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder) {
+        super(balance, primaryOwner, secondaryOwner, accountHolder);
+    }
 }
+

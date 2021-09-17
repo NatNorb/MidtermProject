@@ -21,8 +21,8 @@ public class Checking extends Account{
     private final int minimumBalance = 250;
     private final int monthlyMaintenanceFee = 12;
 
-    public Checking(double balance, String secretKey, String primaryOwner, String secondaryOwner, AccountHolder accountHolder) {
-        super(balance, secretKey, primaryOwner, secondaryOwner, accountHolder);
+    public Checking(double balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder) {
+        super(balance, primaryOwner, secondaryOwner, accountHolder);
     }
 
     //TODO: 12.09.2021   When creating a new Checking account, if the primaryOwner is less than 24,

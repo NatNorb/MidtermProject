@@ -25,7 +25,7 @@ public class SavingsService implements ISavingsService {
         Optional<Savings> s = savingsRepository.findById(savings.getId());
         if(s.isEmpty()){
             try{
-                Savings newSavings = new Savings(savings.getBalance(), savings.getSecretKey(), savings.getPrimaryOwner(),
+                Savings newSavings = new Savings(savings.getBalance(), savings.getPrimaryOwner(),
                         savings.getSecondaryOwner(), savings.getAccountHolder(),
                         savings.getMinimumBalance(), savings.getInterestRate());
                 return savingsRepository.save(newSavings);

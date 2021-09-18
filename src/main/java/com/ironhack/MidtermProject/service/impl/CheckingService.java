@@ -1,5 +1,6 @@
 package com.ironhack.MidtermProject.service.impl;
 
+import com.ironhack.MidtermProject.dao.accounts.Account;
 import com.ironhack.MidtermProject.dao.accounts.Checking;
 import com.ironhack.MidtermProject.dao.accounts.StudentChecking;
 import com.ironhack.MidtermProject.dao.users.AccountHolder;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -25,21 +27,25 @@ public class CheckingService implements ICheckingService {
     @Autowired
     public AccountHolderRepository accountHolderRepository;
 
-    public Checking createChecking(Checking checking) {
+    public Account createChecking(Checking checking) {
         Optional<Checking> ch = checkingRepository.findById(checking.getId());
 
-        if (ch.isEmpty()) {
+        Optional<AccountHolder> accountHolder = accountHolderRepository.findById(checking.getAccountHolder().getAccHolderId());
+
+        if (ch.isEmpty()){
+            if (accountHolder.get().howOld() > 24){
                 Checking newChecking = new Checking(checking.getBalance(), checking.getPrimaryOwner(),
                         checking.getSecondaryOwner(), checking.getAccountHolder());
                 return checkingRepository.save(newChecking);
-
-//            } else if (ch.isEmpty() && checking.getAccountHolder().getAge() <= 24) {
-//                StudentChecking newStudentChecking = new StudentChecking(checking.getBalance(), checking.getPrimaryOwner(),
-//                    checking.getSecondaryOwner(), checking.getAccountHolder());
-//                return studentCheckingRepository.save(newStudentChecking);
-        } else {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id already exists in the system.");
+            } else{
+                StudentChecking newStudentChecking = new StudentChecking(checking.getBalance(), checking.getPrimaryOwner(),
+                        checking.getSecondaryOwner(), checking.getAccountHolder());
+                return studentCheckingRepository.save(newStudentChecking);
             }
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id already exists in the system.");
+        }
+
     }
 
     public void modifyCheckingBalance(Long id, Checking checking){

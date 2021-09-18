@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -17,6 +18,7 @@ import java.util.Optional;
 @Setter
 @DiscriminatorValue("student")
 public class StudentChecking extends Account {
+
 
     public StudentChecking(Money balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder) {
         super(balance, primaryOwner, secondaryOwner, accountHolder);

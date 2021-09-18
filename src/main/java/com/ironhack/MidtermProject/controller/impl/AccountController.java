@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -41,73 +42,25 @@ public class AccountController implements IAccountController {
     @Autowired
     private ICreditCardService creditCardService;
 
-
-//    @GetMapping("/hello-world") //this manages a specific route
-//    @ResponseStatus(HttpStatus.OK) //this is managing the status code
-//    public String helloWorld(){
-//        return "Hello world!! Welcome Rest API";
-//    }
-
-
     @GetMapping("/account")
     @ResponseStatus(HttpStatus.OK)
     public List<Account> search(){
         return accountRepository.findAll();
     }
 
-    @GetMapping("/checking")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Checking> searchChecking(){
-        return checkingRepository.findAll();
-  }
 
-    @GetMapping("/savings")
-    @ResponseStatus(HttpStatus.OK)
-    public List<Savings> searchSaving() {
-        return savingsRepository.findAll();
-    }
-
-    @GetMapping("/creditcard")
-    @ResponseStatus(HttpStatus.OK)
-    public List<CreditCard> searchCreditCard() {
-        return creditCardRepository.findAll();
-    }
-
-    //Admin can create new account - create Checking, Savings, CreditCard
-    @PostMapping("/checking")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Account createChecking(@RequestBody @Valid Checking checking){
-        return checkingService.createChecking(checking);
-    }
-
-    @PostMapping("/savings")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Account createSaving(@RequestBody @Valid Savings savings){
-        return savingsService.createSavings(savings);
-    }
-
-    @PostMapping("/creditcard")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Account createCreditCard(@RequestBody @Valid CreditCard creditCard){
-        return creditCardService.createCreditCard(creditCard);
-    }
-
-    //Admins should be able to access the balance for any account and to modify it.
-
-    @PatchMapping("/checking/{id}")
+    @PutMapping("/account/{fromAcc}/transfer/{toAcc}/{owner}/{amount}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void modifyCheckingBalance(@PathVariable Long id, @RequestBody @Valid Checking checking){
-        checkingService.modifyCheckingBalance(id, checking);
-    }
-    @PatchMapping("/savings/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void modifySavingsBalance(@PathVariable Long id, @RequestBody @Valid Savings savings){
-        savingsService.modifySavingsBalance(id, savings);
-    }
-    @PatchMapping("/creditcard/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void modifyCreditCardBalance(@PathVariable Long id, @RequestBody @Valid CreditCard creditCard){
-        creditCardService.modifyCreditCardBalance(id, creditCard);
+    public void transferMoney(@PathVariable Long fromAcc, @PathVariable Long toAcc,
+                              @PathVariable String owner, @PathVariable BigDecimal amount){
+        accountService.deposit(toAcc, owner, amount);
+        accountService.withdrawal(fromAcc, amount);
+
     }
 
+    @PutMapping("/penaltyFee")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void penaltyFee(){
+        accountService.penaltyFee();
+    }
 }

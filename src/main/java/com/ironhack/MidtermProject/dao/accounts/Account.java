@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,6 +27,7 @@ public abstract class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
 
     @AttributeOverrides({
             @AttributeOverride(name = "amount", column = @Column(name = "balance"))
@@ -45,6 +47,7 @@ public abstract class Account {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "acc_holder_id")
     private AccountHolder accountHolder;
+
 
     public Account(Money balance, String primaryOwner,
                    String secondaryOwner, AccountHolder accountHolder) {

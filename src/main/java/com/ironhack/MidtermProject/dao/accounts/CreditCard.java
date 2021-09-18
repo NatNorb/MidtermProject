@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -33,12 +34,16 @@ public class CreditCard extends Account{
     public void setCreditLimit(int creditLimit) {
         if (creditLimit <= 0 || creditLimit > 100000){
             this.creditLimit = 100;
-        } this.creditLimit = creditLimit;
+        } else {
+            this.creditLimit = creditLimit;
+        }
     }
 
     public void setInterestRate(double interestRate){
         if (interestRate < 0.1){
             this.interestRate = 0.2;
-        } this.interestRate = interestRate;
+        } else {
+            this.interestRate = interestRate;
+        }
     }
 }

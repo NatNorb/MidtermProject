@@ -1,6 +1,7 @@
 package com.ironhack.MidtermProject.controller.impl;
 
 import com.ironhack.MidtermProject.controller.interfaces.IAccountController;
+import com.ironhack.MidtermProject.dao.Money;
 import com.ironhack.MidtermProject.dao.accounts.Account;
 import com.ironhack.MidtermProject.dao.accounts.Checking;
 import com.ironhack.MidtermProject.dao.accounts.CreditCard;
@@ -58,7 +59,7 @@ public class AccountController implements IAccountController {
 
     }
 
-    @PutMapping("/penaltyFee")
+    @PutMapping("/penaltyFee/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void penaltyFee(){
         accountService.penaltyFee();

@@ -1,5 +1,6 @@
 package com.ironhack.MidtermProject.service.impl;
 
+import com.ironhack.MidtermProject.dao.Money;
 import com.ironhack.MidtermProject.dao.accounts.Account;
 import com.ironhack.MidtermProject.dao.accounts.Checking;
 import com.ironhack.MidtermProject.dao.accounts.StudentChecking;
@@ -54,8 +55,8 @@ public class AccountService implements IAccountService {
     public void deposit(Long id, String owner, BigDecimal amount){
         Optional<Account> accDeposit = accountRepository.findById(id);
         if (accDeposit.isPresent()){
-            BigDecimal initBal = accDeposit.get().getBalance();
-            BigDecimal finalBal = initBal.add(amount);
+            Money initBal = accDeposit.get().getBalance();
+            Money finalBal = new Money(initBal.increaseAmount(amount));
             accDeposit.get().setBalance(finalBal);
             accountRepository.save(accDeposit.get());
         } else {
@@ -66,9 +67,9 @@ public class AccountService implements IAccountService {
     public void withdrawal(Long id, BigDecimal amount){
         Optional<Account> accWithdrawal = accountRepository.findById(id);
         if (accWithdrawal.isPresent()){
-            BigDecimal initBal = accWithdrawal.get().getBalance();
-            BigDecimal finalBal = initBal.subtract(amount);
-            if (finalBal.compareTo(BigDecimal.ZERO) > 0){
+            Money initBal = accWithdrawal.get().getBalance();
+            Money finalBal = new Money(initBal.decreaseAmount(amount));
+            if (finalBal.getAmount().compareTo(BigDecimal.ZERO) > 0){
                 accWithdrawal.get().setBalance(finalBal);
                 accountRepository.save(accWithdrawal.get());
             } else {

@@ -1,5 +1,7 @@
 package com.ironhack.MidtermProject.service.interfaces;
 
+import com.ironhack.MidtermProject.dao.Money;
+
 import java.math.BigDecimal;
 
 public interface IAccountService {

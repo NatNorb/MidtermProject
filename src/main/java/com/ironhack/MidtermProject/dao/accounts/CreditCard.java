@@ -24,7 +24,7 @@ public class CreditCard extends Account{
     private int creditLimit;
     private double interestRate;
 
-    public CreditCard(BigDecimal balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder,
+    public CreditCard(Money balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder,
                       int creditLimit, double interestRate) {
         super(balance, primaryOwner, secondaryOwner, accountHolder);
         setCreditLimit(creditLimit);

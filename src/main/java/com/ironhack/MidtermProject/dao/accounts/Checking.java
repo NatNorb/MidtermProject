@@ -22,7 +22,8 @@ public class Checking extends Account{
     private final int minimumBalance = 250;
     private final int monthlyMaintenanceFee = 12;
 
-    public Checking(BigDecimal balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder) {
+
+    public Checking(Money balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder) {
         super(balance, primaryOwner, secondaryOwner, accountHolder);
     }
 

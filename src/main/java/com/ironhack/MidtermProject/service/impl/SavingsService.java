@@ -24,17 +24,25 @@ public class SavingsService implements ISavingsService {
 
     public Savings createSavings(Savings savings){
         Optional<Savings> s = savingsRepository.findById(savings.getId());
-        if(s.isEmpty()){
-            try{
-                Savings newSavings = new Savings(savings.getBalance(), savings.getPrimaryOwner(),
-                        savings.getSecondaryOwner(), savings.getAccountHolder(),
-                        savings.getMinimumBalance(), savings.getInterestRate());
-                return savingsRepository.save(newSavings);
-            } catch (Exception e) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Department and / or status values not valid.");
-            }
+        double interestRate;
+        int minimumBalance;
 
-        } else {
+        if(s.isEmpty()){
+
+//            if (savings.getInterestRate() <= 0 || savings.getInterestRate() > 0.5){
+//                interestRate = 0.0025;
+//            } interestRate = savings.getInterestRate();
+//
+//            if (savings.getMinimumBalance() < 100){
+//                minimumBalance = 1000;
+//            } minimumBalance = savings.getMinimumBalance();
+
+            Savings newSavings = new Savings(savings.getBalance(), savings.getPrimaryOwner(),
+                        savings.getSecondaryOwner(), savings.getAccountHolder(),
+//                        minimumBalance, interestRate);
+                    savings.getMinimumBalance(), savings.getInterestRate());
+                return savingsRepository.save(newSavings);
+            } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id already exists in the system.");
         }
     }

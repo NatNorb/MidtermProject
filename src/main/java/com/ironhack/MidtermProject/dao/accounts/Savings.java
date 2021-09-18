@@ -25,7 +25,7 @@ public class Savings extends Account{
     private double interestRate;
 
 
-    public Savings(BigDecimal balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder,
+    public Savings(Money balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder,
                    int minimumBalance, double interestRate) {
         super(balance, primaryOwner, secondaryOwner, accountHolder);
         setMinimumBalance(minimumBalance);

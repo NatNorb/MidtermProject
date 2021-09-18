@@ -1,5 +1,6 @@
 package com.ironhack.MidtermProject.dao.accounts;
 
+import com.ironhack.MidtermProject.dao.Money;
 import com.ironhack.MidtermProject.dao.users.AccountHolder;
 import com.ironhack.MidtermProject.enums.Status;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,8 @@ import java.util.Optional;
 @DiscriminatorValue("student")
 public class StudentChecking extends Account {
 
-    public StudentChecking(BigDecimal balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder) {
+
+    public StudentChecking(Money balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder) {
         super(balance, primaryOwner, secondaryOwner, accountHolder);
     }
 }

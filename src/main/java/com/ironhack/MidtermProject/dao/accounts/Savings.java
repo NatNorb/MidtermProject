@@ -21,12 +21,12 @@ import java.util.Optional;
 @DiscriminatorValue("saving")
 public class Savings extends Account{
 
-    private int minimumBalance;
+    private BigDecimal minimumBalance;
     private double interestRate;
 
 
     public Savings(Money balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder,
-                   int minimumBalance, double interestRate) {
+                   BigDecimal minimumBalance, double interestRate) {
         super(balance, primaryOwner, secondaryOwner, accountHolder);
         setMinimumBalance(minimumBalance);
         setInterestRate(interestRate);
@@ -39,9 +39,9 @@ public class Savings extends Account{
         }
     }
 
-    public void setMinimumBalance(int minimumBalance) {
-        if (minimumBalance < 100){
-            this.minimumBalance = 1000;
+    public void setMinimumBalance(BigDecimal minimumBalance) {
+        if (minimumBalance.compareTo(new BigDecimal("100")) == -1 || minimumBalance.compareTo(new BigDecimal("1000")) == 1){
+            this.minimumBalance = new BigDecimal("1000");
         } else {
             this.minimumBalance = minimumBalance;
         }

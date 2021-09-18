@@ -19,8 +19,8 @@ import java.util.Optional;
 @DiscriminatorValue("checking")
 public class Checking extends Account{
 
-    private final int minimumBalance = 250;
-    private final int monthlyMaintenanceFee = 12;
+    private final BigDecimal minimumBalance = new BigDecimal("250");
+    private final BigDecimal monthlyMaintenanceFee = new BigDecimal("12");
 
 
     public Checking(Money balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder) {

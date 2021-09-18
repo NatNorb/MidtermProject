@@ -35,11 +35,12 @@ public abstract class Account {
     @Embedded
     private Money balance;
 
-    private UUID secretKey;
+    private String secretKey;
     private String primaryOwner;
     private String secondaryOwner;
-    private final int PENALTY_FEE = 40;
+    private final BigDecimal PENALTY_FEE = new BigDecimal("40");
     private LocalDate creationDate;
+
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -52,7 +53,7 @@ public abstract class Account {
     public Account(Money balance, String primaryOwner,
                    String secondaryOwner, AccountHolder accountHolder) {
         this.balance = balance;
-        this.secretKey = UUID.randomUUID();
+        this.secretKey = secretKey;
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
         this.creationDate = LocalDate.now();

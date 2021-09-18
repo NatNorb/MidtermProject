@@ -1,6 +1,6 @@
 package com.ironhack.MidtermProject.controller.impl;
 
-import com.ironhack.MidtermProject.controller.interfaces.ICreditCardsController;
+import com.ironhack.MidtermProject.controller.interfaces.ICreditCardController;
 import com.ironhack.MidtermProject.dao.accounts.Account;
 import com.ironhack.MidtermProject.dao.accounts.Checking;
 import com.ironhack.MidtermProject.dao.accounts.CreditCard;
@@ -20,7 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-public class CreditCardController implements ICreditCardsController {
+public class CreditCardController implements ICreditCardController {
 
     @Autowired
     private CreditCardRepository creditCardRepository;

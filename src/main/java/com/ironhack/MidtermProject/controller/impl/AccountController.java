@@ -27,21 +27,21 @@ import java.util.List;
 public class AccountController implements IAccountController {
 
     @Autowired
-    private AccountRepository accountRepository;
+    AccountRepository accountRepository;
     @Autowired
-    private CheckingRepository checkingRepository;
+    CheckingRepository checkingRepository;
     @Autowired
-    private SavingsRepository savingsRepository;
+    SavingsRepository savingsRepository;
     @Autowired
-    private CreditCardRepository creditCardRepository;
+    CreditCardRepository creditCardRepository;
     @Autowired
-    private IAccountService accountService;
+    IAccountService accountService;
     @Autowired
-    private ICheckingService checkingService;
+    ICheckingService checkingService;
     @Autowired
-    private ISavingsService savingsService;
+    ISavingsService savingsService;
     @Autowired
-    private ICreditCardService creditCardService;
+    ICreditCardService creditCardService;
 
     @GetMapping("/account")
     @ResponseStatus(HttpStatus.OK)
@@ -54,14 +54,24 @@ public class AccountController implements IAccountController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void transferMoney(@PathVariable Long fromAcc, @PathVariable Long toAcc,
                               @PathVariable String owner, @PathVariable BigDecimal amount){
-        accountService.deposit(toAcc, owner, amount);
         accountService.withdrawal(fromAcc, amount);
+        accountService.deposit(toAcc, owner, amount);
+
 
     }
 
     @PutMapping("/penaltyFee/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void penaltyFee(){
-        accountService.penaltyFee();
+    public void penaltyFee(@PathVariable Long id){
+        accountService.penaltyFee(id);
     }
+
+
+    @PutMapping("/interest/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void interestRate(@PathVariable Long id){
+        accountService.interestRate(id);
+    }
+
+
 }

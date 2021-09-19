@@ -1,10 +1,12 @@
 package com.ironhack.MidtermProject.service.impl;
 
+import com.ironhack.MidtermProject.dao.users.ThirdParty;
 import com.ironhack.MidtermProject.dao.utils.Money;
 import com.ironhack.MidtermProject.dao.utils.Transaction;
 import com.ironhack.MidtermProject.dao.accounts.*;
 import com.ironhack.MidtermProject.dao.users.AccountHolder;
 import com.ironhack.MidtermProject.enums.Operations;
+import com.ironhack.MidtermProject.repository.users.ThirdPartyRepository;
 import com.ironhack.MidtermProject.repository.utils.TransactionRepository;
 import com.ironhack.MidtermProject.repository.accounts.*;
 import com.ironhack.MidtermProject.repository.users.AccountHolderRepository;
@@ -37,6 +39,8 @@ public class AccountService implements IAccountService {
     AccountHolderRepository accountHolderRepository;
     @Autowired
     TransactionRepository transactionRepository;
+    @Autowired
+    ThirdPartyRepository thirdPartyRepository;
 
     public Account create(Checking checking) {
         Optional<Checking> ch = checkingRepository.findById(checking.getId());
@@ -54,7 +58,7 @@ public class AccountService implements IAccountService {
                 return studentCheckingRepository.save(newStudentChecking);
             }
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id already exists in the system.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id already exist in the system.");
         }
 
     }
@@ -63,39 +67,76 @@ public class AccountService implements IAccountService {
     //                       String foreignAccId, String foreignAccHolderId, boolean internalOp) {
 
 
-    public void deposit(Long id, /*String owner,*/ BigDecimal amount/*, Long foreignId*/){
-        Optional<Account> accDeposit = accountRepository.findById(id);
-       // Optional<Account> accWithdraw = accountRepository.findById(foreignId);
-        if (accDeposit.isPresent()){
-            Money initBal = accDeposit.get().getBalance();
-            Money finalBal = new Money(initBal.increaseAmount(amount));
-            accDeposit.get().setBalance(finalBal);
-            accountRepository.save(accDeposit.get());
-            Transaction newTransaction = new Transaction(Operations.DEPOSIT, accDeposit.get().getId(), amount, accDeposit.get().getAccountHolder().getAccHolderId());
-                   // foreignId, accWithdraw.get().getAccountHolder().getAccHolderId(), );
-            transactionRepository.save(newTransaction);
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id does not exists in the system.");
-        }
+    public void transaction (Long fromAcc, BigDecimal amount, Long toAcc){
+        Optional<Account> accDeposit = accountRepository.findById(toAcc);
+        Optional<Account> accWithdraw = accountRepository.findById(fromAcc);
 
-    }
-    public void withdrawal(Long id, BigDecimal amount){
-        Optional<Account> accWithdrawal = accountRepository.findById(id);
-        if (accWithdrawal.isPresent()){
-            Money initBal = accWithdrawal.get().getBalance();
+        if (accWithdraw.isPresent()){
+            Money initBal = accWithdraw.get().getBalance();
             Money finalBal = new Money(initBal.decreaseAmount(amount));
             if (finalBal.getAmount().compareTo(BigDecimal.ZERO) >= 0){
-                accWithdrawal.get().setBalance(finalBal);
-                accountRepository.save(accWithdrawal.get());
-                Transaction newTransaction = new Transaction(Operations.WITHDRAWAL, accWithdrawal.get().getId(), amount.multiply(new BigDecimal("-1")), accWithdrawal.get().getAccountHolder().getAccHolderId());
+                accWithdraw.get().setBalance(finalBal);
+                accountRepository.save(accWithdraw.get());
+                Transaction newTransaction = new Transaction(Operations.WITHDRAWAL, accWithdraw.get().getId(), amount.multiply(new BigDecimal("-1")), accWithdraw.get().getAccountHolder().getAccHolderId(),
+                        toAcc.toString(), accDeposit.get().getAccountHolder().getAccHolderId().toString(), true );
                 transactionRepository.save(newTransaction);
             } else {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is not enough resources");
             }
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id does not exists in the system.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id does not exist in the system. A withdrawal cannot be made.");
         }
+
+        if (accDeposit.isPresent()){
+            Money initBal = accDeposit.get().getBalance();
+            Money finalBal = new Money(initBal.increaseAmount(amount));
+            accDeposit.get().setBalance(finalBal);
+            accountRepository.save(accDeposit.get());
+            Transaction newTransaction = new Transaction(Operations.DEPOSIT, accDeposit.get().getId(), amount, accDeposit.get().getAccountHolder().getAccHolderId(),
+                    fromAcc.toString(), accWithdraw.get().getAccountHolder().getAccHolderId().toString(), true );
+            transactionRepository.save(newTransaction);
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id does not exist in the system. A deposit cannot be made.");
+        }
+
+
     }
+
+//    public void deposit(Long id, /*String owner,*/ BigDecimal amount, Long foreignId){
+//        Optional<Account> accDeposit = accountRepository.findById(id);
+//        Optional<Account> accWithdraw = accountRepository.findById(foreignId);
+//        if (accDeposit.isPresent()){
+//            Money initBal = accDeposit.get().getBalance();
+//            Money finalBal = new Money(initBal.increaseAmount(amount));
+//            accDeposit.get().setBalance(finalBal);
+//            accountRepository.save(accDeposit.get());
+//            Transaction newTransaction = new Transaction(Operations.DEPOSIT, accDeposit.get().getId(), amount, accDeposit.get().getAccountHolder().getAccHolderId(),
+//                    foreignId.toString(), accWithdraw.get().getAccountHolder().getAccHolderId().toString(), true );
+//            transactionRepository.save(newTransaction);
+//        } else {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id does not exists in the system.");
+//        }
+//
+//    }
+//    public void withdrawal(Long id, BigDecimal amount, Long foreignId){
+//        Optional<Account> accWithdrawal = accountRepository.findById(id);
+//        Optional<Account> accDepo = accountRepository.findById(foreignId);
+//        if (accWithdrawal.isPresent()){
+//            Money initBal = accWithdrawal.get().getBalance();
+//            Money finalBal = new Money(initBal.decreaseAmount(amount));
+//            if (finalBal.getAmount().compareTo(BigDecimal.ZERO) >= 0){
+//                accWithdrawal.get().setBalance(finalBal);
+//                accountRepository.save(accWithdrawal.get());
+//                Transaction newTransaction = new Transaction(Operations.WITHDRAWAL, accWithdrawal.get().getId(), amount.multiply(new BigDecimal("-1")), accWithdrawal.get().getAccountHolder().getAccHolderId(),
+//                        foreignId.toString(), accWithdraw.get().getAccountHolder().getAccHolderId().toString(), true ););
+//                transactionRepository.save(newTransaction);
+//            } else {
+//                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is not enough resources");
+//            }
+//        } else {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id does not exists in the system.");
+//        }
+//    }
 
     public void penaltyFee(Long id){
         Optional<Savings> s = savingsRepository.findById(id);
@@ -106,7 +147,8 @@ public class AccountService implements IAccountService {
                Money newBalance = new Money(newBalanceBD);
                s.get().setBalance(newBalance);
                savingsRepository.save(s.get());
-               Transaction newTransaction = new Transaction(Operations.PENALTY_FEE, s.get().getId(), s.get().getPENALTY_FEE().multiply(new BigDecimal("-1")), s.get().getAccountHolder().getAccHolderId());
+               Transaction newTransaction = new Transaction(Operations.PENALTY_FEE, s.get().getId(), s.get().getPENALTY_FEE().multiply(new BigDecimal("-1")), s.get().getAccountHolder().getAccHolderId(),
+                       s.get().getId().toString(), s.get().getAccountHolder().getAccHolderId().toString(), true);
                transactionRepository.save(newTransaction);
             } else {
                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no need to charge a penalty fee.");
@@ -117,13 +159,14 @@ public class AccountService implements IAccountService {
                 Money newBalance = new Money(newBalanceBD);
                 c.get().setBalance(newBalance);
                 checkingRepository.save(c.get());
-                Transaction newTransaction = new Transaction(Operations.PENALTY_FEE, c.get().getId(), c.get().getPENALTY_FEE().multiply(new BigDecimal("-1")), c.get().getAccountHolder().getAccHolderId());
+                Transaction newTransaction = new Transaction(Operations.PENALTY_FEE, c.get().getId(), c.get().getPENALTY_FEE().multiply(new BigDecimal("-1")), c.get().getAccountHolder().getAccHolderId(),
+                        c.get().getId().toString(), c.get().getAccountHolder().getAccHolderId().toString(), true);
                 transactionRepository.save(newTransaction);
             }  else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is no need to charge a penalty fee.");
             }
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id does not exists in the system.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id does not exist in the system.");
         }
     }
 
@@ -139,7 +182,8 @@ public class AccountService implements IAccountService {
                 BigDecimal interest = newBalanceBD.subtract(s.get().getBalance().getAmount());
                 s.get().setBalance(new Money(newBalanceBD));
                 savingsRepository.save(s.get());
-                Transaction newTransaction = new Transaction(Operations.INTEREST, s.get().getId(), interest, s.get().getAccountHolder().getAccHolderId());
+                Transaction newTransaction = new Transaction(Operations.INTEREST, s.get().getId(), interest, s.get().getAccountHolder().getAccHolderId(),
+                        s.get().getId().toString(), s.get().getAccountHolder().getAccHolderId().toString(), true);
                 transactionRepository.save(newTransaction);
             } else {
                 int timePast = Period.between(transactionRepository.dateOfLastInterest(id).toLocalDate(),LocalDate.now()).getYears();
@@ -148,7 +192,8 @@ public class AccountService implements IAccountService {
                     Money newBalance = new Money(interest.add(interest));
                     s.get().setBalance(newBalance);
                     savingsRepository.save(s.get());
-                    Transaction newTransaction = new Transaction(Operations.INTEREST, s.get().getId(), interest, s.get().getAccountHolder().getAccHolderId());
+                    Transaction newTransaction = new Transaction(Operations.INTEREST, s.get().getId(), interest, s.get().getAccountHolder().getAccHolderId(),
+                            s.get().getId().toString(), s.get().getAccountHolder().getAccHolderId().toString(), true);
                     transactionRepository.save(newTransaction);
                 } else {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It is too early to add interest");
@@ -163,7 +208,8 @@ public class AccountService implements IAccountService {
                 BigDecimal interest = newBalanceBD.subtract(cc.get().getBalance().getAmount());
                 cc.get().setBalance(new Money(newBalanceBD));
                 creditCardRepository.save(cc.get());
-                Transaction newTransaction = new Transaction(Operations.INTEREST, cc.get().getId(), interest, cc.get().getAccountHolder().getAccHolderId());
+                Transaction newTransaction = new Transaction(Operations.INTEREST, cc.get().getId(), interest, cc.get().getAccountHolder().getAccHolderId(),
+                        cc.get().getId().toString(), cc.get().getAccountHolder().getAccHolderId().toString(), true);
                 transactionRepository.save(newTransaction);
             } else {
                 int timePast = Period.between(transactionRepository.dateOfLastInterest(id).toLocalDate(),LocalDate.now()).getMonths();
@@ -172,15 +218,50 @@ public class AccountService implements IAccountService {
                     Money newBalance = new Money(interest.add(interest));
                     cc.get().setBalance(newBalance);
                     creditCardRepository.save(cc.get());
-                    Transaction newTransaction = new Transaction(Operations.INTEREST, cc.get().getId(), interest, cc.get().getAccountHolder().getAccHolderId());
+                    Transaction newTransaction = new Transaction(Operations.INTEREST, cc.get().getId(), interest, cc.get().getAccountHolder().getAccHolderId(),
+                            cc.get().getId().toString(), cc.get().getAccountHolder().getAccHolderId().toString(), true);
                     transactionRepository.save(newTransaction);
                 } else {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "It is too early to add interest");
                 }}
         } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id does not exists in the system.");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id does not exist in the system.");
         }
 
+    }
+
+    public void transactionThirdParty(Long accId, String secretKey, BigDecimal amount, String hashedKey, Operations operations){
+        Optional<Account> acc = accountRepository.findById(accId);
+        Optional<ThirdParty> tp = thirdPartyRepository.findByHashedKey(hashedKey);
+        if (acc.isPresent() && tp.isPresent()){
+            if (secretKey == acc.get().getSecretKey()){
+                if (operations == Operations.WITHDRAWAL){
+                    Money initBal = acc.get().getBalance();
+                    Money finalBal = new Money(initBal.decreaseAmount(amount));
+                    if (finalBal.getAmount().compareTo(BigDecimal.ZERO) >= 0){
+                        acc.get().setBalance(finalBal);
+                        accountRepository.save(acc.get());
+                        Transaction newTransaction = new Transaction(Operations.WITHDRAWAL, acc.get().getId(), amount.multiply(new BigDecimal("-1")), acc.get().getAccountHolder().getAccHolderId(),
+                                null, hashedKey, false );
+                        transactionRepository.save(newTransaction);
+                    } else {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is not enough resources");
+                    }
+                } else if (operations == Operations.DEPOSIT){
+                    Money initBal = acc.get().getBalance();
+                    Money finalBal = new Money(initBal.increaseAmount(amount));
+                    acc.get().setBalance(finalBal);
+                    accountRepository.save(acc.get());
+                    Transaction newTransaction = new Transaction(Operations.DEPOSIT, acc.get().getId(), amount, acc.get().getAccountHolder().getAccHolderId(),
+                            null, hashedKey, false );
+                    transactionRepository.save(newTransaction);
+                } else {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This operation is not allowed.");
+                }
+            }
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id and/or hash key do not exist in the system.");
+        }
     }
 
 

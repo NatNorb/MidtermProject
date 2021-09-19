@@ -52,20 +52,16 @@ public class AccountController implements IAccountController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void transferMoney(@PathVariable Long fromAcc, @PathVariable Long toAcc,
                               @PathVariable String owner, @PathVariable BigDecimal amount){
-        accountService.withdrawal(fromAcc, amount/*, toAcc*/);
-        accountService.deposit(toAcc, amount/*, fromAcc*/);
+        accountService.transaction(fromAcc, amount, toAcc);
     }
 
-   /* @PutMapping("/third-party/{hashedKey}/{amount}/{accId}/{secretKey}/{operation}")
+    @PutMapping("/third-party/{hashedKey}/{amount}/{accId}/{secretKey}/{operation}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void thirdPartyOperation(@PathVariable String hashedKey, @PathVariable BigDecimal amount,
                                     @PathVariable Long accId, @PathVariable String secretKey, @PathVariable Operations operation){
-        if (operation == Operations.WITHDRAWAL) {
-            accountService.withdrawalThirdPatry(accId, amount, hashedKey);
-        } else if (operation == Operations.DEPOSIT) {
-            accountService.depositThirdPatry(accId, amount, hashedKey);
-        }
-    }*/
+        accountService.transactionThirdParty(accId, secretKey, amount, hashedKey, operation);
+
+    }
 
     @PutMapping("/penaltyFee/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

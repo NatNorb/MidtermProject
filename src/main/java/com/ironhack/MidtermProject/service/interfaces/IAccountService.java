@@ -1,11 +1,14 @@
 package com.ironhack.MidtermProject.service.interfaces;
 
+import com.ironhack.MidtermProject.enums.Operations;
+
 import java.math.BigDecimal;
 
 public interface IAccountService {
 
-    void deposit(Long id, /*String owner,*/ BigDecimal amount);
-    void withdrawal(Long id, BigDecimal amount);
+    void transaction(Long fromAcc, BigDecimal amount, Long toAcc);
     void penaltyFee(Long id);
     void interestRate(Long id);
+    void transactionThirdParty(Long accId, String secretKey, BigDecimal amount, String hashedKey, Operations operations);
+
 }

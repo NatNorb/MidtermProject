@@ -29,24 +29,23 @@ public class Transaction {
     private BigDecimal value;
     private long accHolderId;
     private LocalDateTime timestamp;
-   // private String foreignAccId;
-   // private String foreignAccHolderId;
-  //  private boolean internalOp;
+    private String foreignAccId;
+    private String foreignAccHolderId;
+    private boolean internalOp;
 
 
 
-    public Transaction(Operations operations, long accId, BigDecimal value, long accHolderId){
-           // ,
-            //           String foreignAccId, String foreignAccHolderId, boolean internalOp) {
+    public Transaction(Operations operations, long accId, BigDecimal value, long accHolderId,
+                     String foreignAccId, String foreignAccHolderId, boolean internalOp) {
         this.operations = operations;
         this.accId = accId;
         this.value = value;
         this.accHolderId = accHolderId;
         this.timestamp = LocalDateTime.now();
-        // this.timestamp = new Timestamp(System.currentTimeMillis());
-       // this.foreignAccId = foreignAccId;
-       // this.foreignAccHolderId = foreignAccHolderId;
-       // this.internalOp = internalOp;
+       // this.timestamp = new Timestamp(System.currentTimeMillis());
+        this.foreignAccId = foreignAccId;
+        this.foreignAccHolderId = foreignAccHolderId;
+        this.internalOp = internalOp;
     }
 
 }

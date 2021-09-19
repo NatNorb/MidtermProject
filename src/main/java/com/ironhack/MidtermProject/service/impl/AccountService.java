@@ -59,15 +59,20 @@ public class AccountService implements IAccountService {
 
     }
 
+    //public Transaction(Operations operations, long accId, BigDecimal value, long accHolderId,
+    //                       String foreignAccId, String foreignAccHolderId, boolean internalOp) {
 
-    public void deposit(Long id, String owner, BigDecimal amount){
+
+    public void deposit(Long id, /*String owner,*/ BigDecimal amount/*, Long foreignId*/){
         Optional<Account> accDeposit = accountRepository.findById(id);
+       // Optional<Account> accWithdraw = accountRepository.findById(foreignId);
         if (accDeposit.isPresent()){
             Money initBal = accDeposit.get().getBalance();
             Money finalBal = new Money(initBal.increaseAmount(amount));
             accDeposit.get().setBalance(finalBal);
             accountRepository.save(accDeposit.get());
             Transaction newTransaction = new Transaction(Operations.DEPOSIT, accDeposit.get().getId(), amount, accDeposit.get().getAccountHolder().getAccHolderId());
+                   // foreignId, accWithdraw.get().getAccountHolder().getAccHolderId(), );
             transactionRepository.save(newTransaction);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id does not exists in the system.");
@@ -153,7 +158,6 @@ public class AccountService implements IAccountService {
         } else if (cc.isPresent()){
             if (transactionRepository.dateOfLastInterest(id) == null){
                 int timeFromCreate = Period.between(cc.get().getCreationDate(),LocalDate.now()).getYears() * 12 + Period.between(cc.get().getCreationDate(),LocalDate.now()).getMonths();
-                int timeFromCreateM = Period.between(cc.get().getCreationDate(),LocalDate.now()).getMonths();
                 BigDecimal newBalanceBD = cc.get().getBalance().getAmount().multiply(((cc.get().getInterestRate().divide(new BigDecimal("12"), 10, RoundingMode.HALF_UP)).add(new BigDecimal("1"))).pow(timeFromCreate));
                 //Money newBalance = new Money(s.get().getBalance().getAmount().multiply(interest));
                 BigDecimal interest = newBalanceBD.subtract(cc.get().getBalance().getAmount());

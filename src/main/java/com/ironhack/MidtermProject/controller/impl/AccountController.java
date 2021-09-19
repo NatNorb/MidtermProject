@@ -2,6 +2,7 @@ package com.ironhack.MidtermProject.controller.impl;
 
 import com.ironhack.MidtermProject.controller.interfaces.IAccountController;
 import com.ironhack.MidtermProject.dao.accounts.Account;
+import com.ironhack.MidtermProject.enums.Operations;
 import com.ironhack.MidtermProject.repository.accounts.AccountRepository;
 import com.ironhack.MidtermProject.repository.accounts.CheckingRepository;
 import com.ironhack.MidtermProject.repository.accounts.CreditCardRepository;
@@ -51,11 +52,20 @@ public class AccountController implements IAccountController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void transferMoney(@PathVariable Long fromAcc, @PathVariable Long toAcc,
                               @PathVariable String owner, @PathVariable BigDecimal amount){
-        accountService.withdrawal(fromAcc, amount);
-        accountService.deposit(toAcc, owner, amount);
-
-
+        accountService.withdrawal(fromAcc, amount/*, toAcc*/);
+        accountService.deposit(toAcc, amount/*, fromAcc*/);
     }
+
+   /* @PutMapping("/third-party/{hashedKey}/{amount}/{accId}/{secretKey}/{operation}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void thirdPartyOperation(@PathVariable String hashedKey, @PathVariable BigDecimal amount,
+                                    @PathVariable Long accId, @PathVariable String secretKey, @PathVariable Operations operation){
+        if (operation == Operations.WITHDRAWAL) {
+            accountService.withdrawalThirdPatry(accId, amount, hashedKey);
+        } else if (operation == Operations.DEPOSIT) {
+            accountService.depositThirdPatry(accId, amount, hashedKey);
+        }
+    }*/
 
     @PutMapping("/penaltyFee/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -69,6 +79,14 @@ public class AccountController implements IAccountController {
     public void interestRate(@PathVariable Long id){
         accountService.interestRate(id);
     }
+
+    @GetMapping("/account/{name}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Account> searchByName(@PathVariable String name){
+        return accountRepository.findByPrimaryOwner(name);
+    }
+
+
 
 
 }

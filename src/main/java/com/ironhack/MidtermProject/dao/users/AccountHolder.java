@@ -1,17 +1,14 @@
 package com.ironhack.MidtermProject.dao.users;
 
-import com.ironhack.MidtermProject.dao.Address;
-import com.ironhack.MidtermProject.dao.accounts.Checking;
+import com.ironhack.MidtermProject.dao.utils.Address;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.el.stream.Optional;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Set;
 
 @Entity
 @AllArgsConstructor

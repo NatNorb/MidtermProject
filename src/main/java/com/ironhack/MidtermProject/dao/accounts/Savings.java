@@ -1,17 +1,13 @@
 package com.ironhack.MidtermProject.dao.accounts;
 
-import com.ironhack.MidtermProject.dao.Money;
+import com.ironhack.MidtermProject.dao.utils.Money;
 import com.ironhack.MidtermProject.dao.users.AccountHolder;
-import com.ironhack.MidtermProject.enums.Status;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Optional;
 
 @Entity
 //@AllArgsConstructor
@@ -22,19 +18,19 @@ import java.util.Optional;
 public class Savings extends Account{
 
     private BigDecimal minimumBalance;
-    private double interestRate;
+    private BigDecimal interestRate;
 
 
     public Savings(Money balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder,
-                   BigDecimal minimumBalance, double interestRate) {
+                   BigDecimal minimumBalance, BigDecimal interestRate) {
         super(balance, primaryOwner, secondaryOwner, accountHolder);
         setMinimumBalance(minimumBalance);
         setInterestRate(interestRate);
     }
 
-    public void setInterestRate(double interestRate){
-        if (interestRate <= 0.0 || interestRate > 0.5){
-            this.interestRate = 0.0025;
+    public void setInterestRate(BigDecimal interestRate){
+        if (interestRate.compareTo(new BigDecimal("0")) <= 0 || interestRate.compareTo(new BigDecimal("0.5")) == 1){
+            this.interestRate = new BigDecimal("0.0025");
         } else {this.interestRate = interestRate;
         }
     }

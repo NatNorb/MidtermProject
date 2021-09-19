@@ -1,9 +1,8 @@
 package com.ironhack.MidtermProject.controller.impl;
 
 import com.ironhack.MidtermProject.controller.interfaces.ITransactionController;
-import com.ironhack.MidtermProject.dao.Transaction;
-import com.ironhack.MidtermProject.dao.accounts.Account;
-import com.ironhack.MidtermProject.repository.TransactionRepository;
+import com.ironhack.MidtermProject.dao.utils.Transaction;
+import com.ironhack.MidtermProject.repository.utils.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;

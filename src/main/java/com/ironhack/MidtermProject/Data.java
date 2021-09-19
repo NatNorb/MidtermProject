@@ -1,19 +1,6 @@
 package com.ironhack.MidtermProject;
 
-import com.ironhack.MidtermProject.dao.Address;
-import com.ironhack.MidtermProject.dao.Money;
-import com.ironhack.MidtermProject.dao.accounts.*;
-import com.ironhack.MidtermProject.dao.users.AccountHolder;
-import com.ironhack.MidtermProject.enums.Status;
-import com.ironhack.MidtermProject.repository.AddressRepository;
-import com.ironhack.MidtermProject.repository.accounts.*;
-import com.ironhack.MidtermProject.repository.users.AccountHolderRepository;
 import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.Currency;
-import java.util.List;
 
 @Component
 public class Data {

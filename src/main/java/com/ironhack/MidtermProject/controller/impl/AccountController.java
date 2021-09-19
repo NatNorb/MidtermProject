@@ -1,16 +1,12 @@
 package com.ironhack.MidtermProject.controller.impl;
 
 import com.ironhack.MidtermProject.controller.interfaces.IAccountController;
-import com.ironhack.MidtermProject.dao.Money;
 import com.ironhack.MidtermProject.dao.accounts.Account;
-import com.ironhack.MidtermProject.dao.accounts.Checking;
-import com.ironhack.MidtermProject.dao.accounts.CreditCard;
-import com.ironhack.MidtermProject.dao.accounts.Savings;
 import com.ironhack.MidtermProject.repository.accounts.AccountRepository;
 import com.ironhack.MidtermProject.repository.accounts.CheckingRepository;
 import com.ironhack.MidtermProject.repository.accounts.CreditCardRepository;
 import com.ironhack.MidtermProject.repository.accounts.SavingsRepository;
-import com.ironhack.MidtermProject.service.impl.CheckingService;
+import com.ironhack.MidtermProject.repository.utils.TransactionRepository;
 import com.ironhack.MidtermProject.service.interfaces.IAccountService;
 import com.ironhack.MidtermProject.service.interfaces.ICheckingService;
 import com.ironhack.MidtermProject.service.interfaces.ICreditCardService;
@@ -19,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -42,6 +37,8 @@ public class AccountController implements IAccountController {
     ISavingsService savingsService;
     @Autowired
     ICreditCardService creditCardService;
+    @Autowired
+    TransactionRepository transactionRepository;
 
     @GetMapping("/account")
     @ResponseStatus(HttpStatus.OK)

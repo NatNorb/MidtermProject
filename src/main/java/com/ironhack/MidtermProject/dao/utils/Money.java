@@ -1,12 +1,6 @@
-package com.ironhack.MidtermProject.dao;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.stereotype.Component;
+package com.ironhack.MidtermProject.dao.utils;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 import java.math.RoundingMode;
 import java.math.BigDecimal;
 import java.util.Currency;

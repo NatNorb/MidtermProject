@@ -1,4 +1,4 @@
-package com.ironhack.MidtermProject.dao;
+package com.ironhack.MidtermProject.dao.utils;
 
 
 import com.ironhack.MidtermProject.enums.Operations;

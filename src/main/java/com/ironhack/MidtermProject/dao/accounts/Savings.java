@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
 
 @Entity
@@ -18,12 +19,19 @@ import java.math.BigDecimal;
 public class Savings extends Account{
 
     private BigDecimal minimumBalance;
-    private BigDecimal interestRate;
+
+    @Digits(integer = 1, fraction = 4)
+    private BigDecimal interestRate = BigDecimal.ZERO;
+//    BigDecimal
+//
+//    Integer perc = 5;
+//    BigDecimal spread = BigDecimal.ZERO;
+//    BigDecimal perc = spread.setScale(perc,BigDecimal.ROUND_HALF_UP);
 
 
-    public Savings(Money balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder,
+    public Savings(Money balance, String primaryOwner, String secondaryOwner, String secretKey, AccountHolder accountHolder,
                    BigDecimal minimumBalance, BigDecimal interestRate) {
-        super(balance, primaryOwner, secondaryOwner, accountHolder);
+        super(balance, primaryOwner, secondaryOwner, secretKey, accountHolder);
         setMinimumBalance(minimumBalance);
         setInterestRate(interestRate);
     }

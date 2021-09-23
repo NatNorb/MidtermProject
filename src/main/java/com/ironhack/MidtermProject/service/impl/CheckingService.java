@@ -35,11 +35,11 @@ public class CheckingService implements ICheckingService {
         if (ch.isEmpty()){
             if (accountHolder.get().howOld() > 24){
                 Checking newChecking = new Checking(checking.getBalance(), checking.getPrimaryOwner(),
-                        checking.getSecondaryOwner(), checking.getAccountHolder());
+                        checking.getSecondaryOwner(), checking.getSecretKey(),  checking.getAccountHolder());
                 return checkingRepository.save(newChecking);
             } else{
                 StudentChecking newStudentChecking = new StudentChecking(checking.getBalance(), checking.getPrimaryOwner(),
-                        checking.getSecondaryOwner(), checking.getAccountHolder());
+                        checking.getSecondaryOwner(), checking.getSecretKey(),  checking.getAccountHolder());
                 return studentCheckingRepository.save(newStudentChecking);
             }
         } else {

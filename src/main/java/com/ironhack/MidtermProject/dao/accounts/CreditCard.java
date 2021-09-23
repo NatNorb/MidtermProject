@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
 
 @Entity
@@ -19,11 +20,13 @@ import java.math.BigDecimal;
 public class CreditCard extends Account{
 
     private int creditLimit;
+
+    @Digits(integer = 1, fraction = 4)
     private BigDecimal interestRate;
 
-    public CreditCard(Money balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder,
+    public CreditCard(Money balance, String primaryOwner, String secondaryOwner, String secretKey, AccountHolder accountHolder,
                       int creditLimit, BigDecimal interestRate) {
-        super(balance, primaryOwner, secondaryOwner, accountHolder);
+        super(balance, primaryOwner, secondaryOwner, secretKey, accountHolder);
         setCreditLimit(creditLimit);
         setInterestRate(interestRate);
     }

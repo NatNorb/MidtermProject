@@ -49,7 +49,7 @@ public abstract class Account {
 
 
     public Account(Money balance, String primaryOwner,
-                   String secondaryOwner, AccountHolder accountHolder) {
+                   String secondaryOwner, String secretKey, AccountHolder accountHolder) {
         this.balance = balance;
         this.secretKey = secretKey;
         this.primaryOwner = primaryOwner;

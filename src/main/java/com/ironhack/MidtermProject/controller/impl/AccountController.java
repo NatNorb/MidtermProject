@@ -82,6 +82,12 @@ public class AccountController implements IAccountController {
         return accountRepository.findByPrimaryOwner(name);
     }
 
+    @PutMapping("/fraudDetection")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void fraudDetection(){
+        accountService.fraudDetection();
+    }
+
 
 
 

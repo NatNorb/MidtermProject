@@ -16,8 +16,8 @@ import javax.persistence.*;
 public class StudentChecking extends Account {
 
 
-    public StudentChecking(Money balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder) {
-        super(balance, primaryOwner, secondaryOwner, accountHolder);
+    public StudentChecking(Money balance, String primaryOwner, String secondaryOwner, String secretKey, AccountHolder accountHolder) {
+        super(balance, primaryOwner, secondaryOwner, secretKey, accountHolder);
     }
 }
 

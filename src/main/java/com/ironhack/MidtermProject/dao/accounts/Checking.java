@@ -21,8 +21,8 @@ public class Checking extends Account{
     private final BigDecimal monthlyMaintenanceFee = new BigDecimal("12");
 
 
-    public Checking(Money balance, String primaryOwner, String secondaryOwner, AccountHolder accountHolder) {
-        super(balance, primaryOwner, secondaryOwner, accountHolder);
+    public Checking(Money balance, String primaryOwner, String secondaryOwner, String secretKey, AccountHolder accountHolder) {
+        super(balance, primaryOwner, secondaryOwner, secretKey,accountHolder);
     }
 
     //TODO: 12.09.2021   When creating a new Checking account, if the primaryOwner is less than 24,

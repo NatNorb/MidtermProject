@@ -28,7 +28,7 @@ public class CreditCardService implements ICreditCardService {
         Optional<CreditCard> cc = creditCardRepository.findById(creditCard.getId());
         if(cc.isEmpty()){
             try{
-                CreditCard newCreditCard = new CreditCard(creditCard.getBalance(),/* creditCard.getSecretKey(),  */                              creditCard.getPrimaryOwner(), creditCard.getSecondaryOwner(),
+                CreditCard newCreditCard = new CreditCard(creditCard.getBalance(), creditCard.getPrimaryOwner(), creditCard.getSecondaryOwner(), creditCard.getSecretKey(),
                         creditCard.getAccountHolder(), creditCard.getCreditLimit(), creditCard.getInterestRate());
                 return creditCardRepository.save(newCreditCard);
             } catch (Exception e) {

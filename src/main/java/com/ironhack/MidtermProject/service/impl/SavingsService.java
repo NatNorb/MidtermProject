@@ -38,7 +38,7 @@ public class SavingsService implements ISavingsService {
 //            } minimumBalance = savings.getMinimumBalance();
 
             Savings newSavings = new Savings(savings.getBalance(), savings.getPrimaryOwner(),
-                        savings.getSecondaryOwner(), savings.getAccountHolder(),
+                        savings.getSecondaryOwner(), savings.getSecretKey(), savings.getAccountHolder(),
 //                        minimumBalance, interestRate);
                     savings.getMinimumBalance(), savings.getInterestRate());
                 return savingsRepository.save(newSavings);

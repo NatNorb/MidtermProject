@@ -6,6 +6,7 @@ import com.ironhack.MidtermProject.dao.utils.Transaction;
 import com.ironhack.MidtermProject.dao.accounts.*;
 import com.ironhack.MidtermProject.dao.users.AccountHolder;
 import com.ironhack.MidtermProject.enums.Operations;
+import com.ironhack.MidtermProject.enums.Status;
 import com.ironhack.MidtermProject.repository.users.ThirdPartyRepository;
 import com.ironhack.MidtermProject.repository.utils.TransactionRepository;
 import com.ironhack.MidtermProject.repository.accounts.*;
@@ -20,6 +21,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,11 +52,11 @@ public class AccountService implements IAccountService {
         if (ch.isEmpty()){
             if (accountHolder.get().howOld() > 24){
                 Checking newChecking = new Checking(checking.getBalance(), checking.getPrimaryOwner(),
-                        checking.getSecondaryOwner(), checking.getAccountHolder());
+                        checking.getSecondaryOwner(), checking.getSecretKey(), checking.getAccountHolder());
                 return checkingRepository.save(newChecking);
             } else{
                 StudentChecking newStudentChecking = new StudentChecking(checking.getBalance(), checking.getPrimaryOwner(),
-                        checking.getSecondaryOwner(), checking.getAccountHolder());
+                        checking.getSecondaryOwner(), checking.getSecretKey(), checking.getAccountHolder());
                 return studentCheckingRepository.save(newStudentChecking);
             }
         } else {
@@ -234,8 +236,8 @@ public class AccountService implements IAccountService {
         Optional<Account> acc = accountRepository.findById(accId);
         Optional<ThirdParty> tp = thirdPartyRepository.findByHashedKey(hashedKey);
         if (acc.isPresent() && tp.isPresent()){
-            if (secretKey == acc.get().getSecretKey()){
-                if (operations == Operations.WITHDRAWAL){
+            if (secretKey.equals(acc.get().getSecretKey())){
+                if (operations.equals(Operations.WITHDRAWAL)){
                     Money initBal = acc.get().getBalance();
                     Money finalBal = new Money(initBal.decreaseAmount(amount));
                     if (finalBal.getAmount().compareTo(BigDecimal.ZERO) >= 0){
@@ -247,7 +249,7 @@ public class AccountService implements IAccountService {
                     } else {
                         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is not enough resources");
                     }
-                } else if (operations == Operations.DEPOSIT){
+                } else if (operations.equals(Operations.DEPOSIT)){
                     Money initBal = acc.get().getBalance();
                     Money finalBal = new Money(initBal.increaseAmount(amount));
                     acc.get().setBalance(finalBal);
@@ -264,5 +266,18 @@ public class AccountService implements IAccountService {
         }
     }
 
-
+    public void fraudDetection(){
+        List<Optional<Long>> accIdFraud = transactionRepository.countTransaction();
+        int size = accIdFraud.size();
+        if (size > 0) {
+            for (int i = 0; i<size; i++) {
+                if (accIdFraud.get(i).isPresent()) {
+                    Account accFreeze = accountRepository.getById(accIdFraud.get(i).get());
+                    accFreeze.setStatus(Status.FROZEN);
+                    accountRepository.save(accFreeze);
+                }
+            }
+        } else
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "All accounts are fine.");
+    }
 }

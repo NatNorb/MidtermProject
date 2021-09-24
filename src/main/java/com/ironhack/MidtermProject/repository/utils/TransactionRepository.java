@@ -19,11 +19,17 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     @Query(value = "WITH MinTime AS (SELECT MIN(timestamp) AS min_time FROM transaction) " +
             "SELECT distinct acc_id FROM MinTime MT CROSS JOIN transaction T " +
             "GROUP BY acc_id,  DATE_ADD(MT.min_time, interval TIME_TO_SEC(timediff(timestamp, min_time)) second) " +
-            "HAVING count(*)>=2 ",  nativeQuery = true)
+            "HAVING count(*)>2 ",  nativeQuery = true)
    // Optional<Long> countTransaction();
     List<Optional<Long>> countTransaction();
 
 
+    @Query(value = "SELECT acc_id from transaction " +
+            "where date(timestamp) between DATE_ADD(date(sysdate()), interval -2 day) and DATE_ADD(date(sysdate()), interval -1 day) " +
+            "group by acc_id " +
+            "having sum(case when date(timestamp) = DATE_ADD(date(sysdate()), interval -1 day) then abs(value) else 0 end) > " +
+            "sum(case when date(timestamp) = DATE_ADD(date(sysdate()), interval -2 day) then abs(value) else 0 end)*1.5 = 1 ",  nativeQuery = true)
+    List<Optional<Long>> listOfAccId();
 //
 //
 //                   "SELECT acc_id, COUNT(*) AS count " +

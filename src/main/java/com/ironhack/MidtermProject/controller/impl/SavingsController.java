@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequestMapping("/admin")
 public class SavingsController implements ISavingdController {
 
     @Autowired

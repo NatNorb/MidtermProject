@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequestMapping("/admin")
 public class StudentCheckingController implements IStudentCheckingController {
 
     @Autowired

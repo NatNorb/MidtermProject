@@ -10,7 +10,8 @@ public interface IAccountService {
     void penaltyFee(Long id);
     void interestRate(Long id);
     void transactionThirdParty(Long accId, String secretKey, BigDecimal amount, String hashedKey, Operations operations);
-    void fraudDetection();
+    void fraudDetectionV1();
+    void fraudDetectionV2();
     void unfreeze(Long id);
 
 }

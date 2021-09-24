@@ -20,6 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@RequestMapping("/admin")
 public class CreditCardController implements ICreditCardController {
 
     @Autowired
@@ -28,21 +29,21 @@ public class CreditCardController implements ICreditCardController {
     @Autowired
     private ICreditCardService creditCardService;
 
-    @GetMapping("/creditcard")
+    @GetMapping("/credit-card")
     @ResponseStatus(HttpStatus.OK)
     public List<CreditCard> searchCreditCard() {
         return creditCardRepository.findAll();
     }
 
     //Admin can create new account - create Checking, Savings, CreditCard
-     @PostMapping("/creditcard")
+     @PostMapping("/credit-card")
     @ResponseStatus(HttpStatus.CREATED)
     public Account createCreditCard(@RequestBody @Valid CreditCard creditCard){
         return creditCardService.createCreditCard(creditCard);
     }
 
     //Admins should be able to access the balance for any account and to modify it.
-    @PatchMapping("/creditcard/{id}")
+    @PatchMapping("/credit-card/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void modifyCreditCardBalance(@PathVariable Long id, @RequestBody @Valid CreditCard creditCard){
         creditCardService.modifyCreditCardBalance(id, creditCard);

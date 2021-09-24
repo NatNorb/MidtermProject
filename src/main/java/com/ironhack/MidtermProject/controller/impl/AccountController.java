@@ -41,14 +41,14 @@ public class AccountController implements IAccountController {
     @Autowired
     TransactionRepository transactionRepository;
 
-    @GetMapping("/account")
+    @GetMapping("/admin/account")
     @ResponseStatus(HttpStatus.OK)
     public List<Account> search(){
         return accountRepository.findAll();
     }
 
 
-    @PutMapping("/account/{fromAcc}/transfer/{toAcc}/{owner}/{amount}")
+    @PutMapping("/account-holder/{fromAcc}/transfer/{toAcc}/{owner}/{amount}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void transferMoney(@PathVariable Long fromAcc, @PathVariable Long toAcc,
                               @PathVariable String owner, @PathVariable BigDecimal amount){
@@ -63,29 +63,35 @@ public class AccountController implements IAccountController {
 
     }
 
-    @PutMapping("/penaltyFee/{id}")
+    @PutMapping("/admin/penaltyFee/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void penaltyFee(@PathVariable Long id){
         accountService.penaltyFee(id);
     }
 
 
-    @PutMapping("/interest/{id}")
+    @PutMapping("/admin/interest/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void interestRate(@PathVariable Long id){
         accountService.interestRate(id);
     }
 
-    @GetMapping("/account/{name}")
+    @GetMapping("/account-holder/{name}")
     @ResponseStatus(HttpStatus.OK)
     public List<Account> searchByName(@PathVariable String name){
         return accountRepository.findByPrimaryOwner(name);
     }
 
-    @PutMapping("/fraudDetection")
+    @PutMapping("/admin/fraud-detection-v1")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void fraudDetection(){
-        accountService.fraudDetection();
+    public void fraudDetectionV1(){
+        accountService.fraudDetectionV1();
+    }
+
+    @PutMapping("/admin/fraud-detection-v2")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void fraudDetectionV2(){
+        accountService.fraudDetectionV2();
     }
 
 

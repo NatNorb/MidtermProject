@@ -21,4 +21,9 @@ public class ThirdParty {
     private Long id;
     private String name;
     private String hashedKey;
+
+    public ThirdParty(String name, String hashedKey) {
+        this.name = name;
+        this.hashedKey = hashedKey;
+    }
 }

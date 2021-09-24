@@ -21,6 +21,10 @@ public class Admin {
     private Long id;
     private String name;
 
-   // Admins can create new accounts.
+    public Admin(String name) {
+        this.name = name;
+    }
+
+    // Admins can create new accounts.
     // When creating a new account they can create Checking, Savings, or CreditCard Accounts.
 }

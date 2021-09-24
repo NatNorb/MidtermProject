@@ -11,5 +11,6 @@ public interface IAccountService {
     void interestRate(Long id);
     void transactionThirdParty(Long accId, String secretKey, BigDecimal amount, String hashedKey, Operations operations);
     void fraudDetection();
+    void unfreeze(Long id);
 
 }

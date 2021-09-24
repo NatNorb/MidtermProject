@@ -280,4 +280,14 @@ public class AccountService implements IAccountService {
         } else
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "All accounts are fine.");
     }
+
+    public void unfreeze(Long id){
+        Optional<Account> acc = accountRepository.findById(id);
+        if(acc.get().getStatus().equals(Status.FROZEN)){
+            acc.get().setStatus(Status.ACTIVE);
+            accountRepository.save(acc.get());
+        } else {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Account " + id + " is ACTIVE.");
+        }
+    }
 }

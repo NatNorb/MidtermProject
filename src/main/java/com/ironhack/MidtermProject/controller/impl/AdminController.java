@@ -1,19 +1,15 @@
 package com.ironhack.MidtermProject.controller.impl;
 
 import com.ironhack.MidtermProject.controller.interfaces.IAdminController;
-import com.ironhack.MidtermProject.dao.accounts.Account;
-import com.ironhack.MidtermProject.dao.accounts.Checking;
 import com.ironhack.MidtermProject.dao.users.AccountHolder;
 import com.ironhack.MidtermProject.dao.users.Admin;
 import com.ironhack.MidtermProject.dao.users.ThirdParty;
-import com.ironhack.MidtermProject.dao.utils.Address;
+import com.ironhack.MidtermProject.dao.additional.Address;
 import com.ironhack.MidtermProject.repository.accounts.AccountRepository;
 import com.ironhack.MidtermProject.repository.users.AccountHolderRepository;
 import com.ironhack.MidtermProject.repository.users.AdminRepository;
 import com.ironhack.MidtermProject.repository.users.ThirdPartyRepository;
-import com.ironhack.MidtermProject.repository.utils.AddressRepository;
-import com.ironhack.MidtermProject.service.impl.AccountHolderService;
-import com.ironhack.MidtermProject.service.impl.AccountService;
+import com.ironhack.MidtermProject.repository.additional.AddressRepository;
 import com.ironhack.MidtermProject.service.interfaces.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

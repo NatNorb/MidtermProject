@@ -7,7 +7,7 @@ import com.ironhack.MidtermProject.repository.accounts.AccountRepository;
 import com.ironhack.MidtermProject.repository.accounts.CheckingRepository;
 import com.ironhack.MidtermProject.repository.accounts.CreditCardRepository;
 import com.ironhack.MidtermProject.repository.accounts.SavingsRepository;
-import com.ironhack.MidtermProject.repository.utils.TransactionRepository;
+import com.ironhack.MidtermProject.repository.additional.TransactionRepository;
 import com.ironhack.MidtermProject.service.interfaces.IAccountService;
 import com.ironhack.MidtermProject.service.interfaces.ICheckingService;
 import com.ironhack.MidtermProject.service.interfaces.ICreditCardService;

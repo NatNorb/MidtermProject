@@ -20,3 +20,43 @@ INSERT INTO account (acc_type, id, penalty_fee, balance, currency, creation_date
 INSERT INTO third_party (id, hashed_key, name) VALUES
 (1, "1XYZ", "Legolas"),
 (2, "2XYZ", "Gimli");
+
+INSERT INTO user (username, password) VALUES
+("account-holder", "$2a$10$MSzkrmfd5ZTipY0XkuCbAejBC9g74MAg2wrkeu8/m1wQGXDihaX3e"), --123456
+("third-party", "$2a$15$NAYChDNT4kWKytFJLqNm0.vN9oNv0l9wa1acKQkDd7uSlgI6GpyIO"), --456789
+("admin", "$2a$15$LNyWbikF3gn83ZnBBG1L8OxG9BXKe5smU2I5FF0quoJD9qtXIRBCm"); --789123
+
+INSERT INTO role (name, user_id) VALUES
+("ACCOUNT-HOLDER", 1),
+("ADMIN", 3),
+("THIRD-PARTY", 2);
+
+INSERT INTO transaction (acc_holder_id, acc_id,foreign_acc_holder_id,foreign_acc_id,internal_op,operations,timestamp,value) VALUES
+(4, 3, 3, 2, 1, "WITHDRAWAL", "2021-09-18 21:02:04", -417.15),
+(4, 3, 3, 2, 1, "DEPOSIT", "2021-09-18 21:02:04", 338.66),
+(4, 3, 1, 1, 1, "DEPOSIT", "2021-09-18 22:04:47", 133.52),
+(3, 2, 1, 1, 1, "WITHDRAWAL", "2021-09-19 07:45:15", -560.05),
+(3, 4, 3, 2, 1, "WITHDRAWAL", "2021-09-19 07:56:07", -205.24),
+(3, 2, 4, 3, 1, "DEPOSIT", "2021-09-19 10:14:01", 720.77),
+(1, 1, 1, 5, 1, "WITHDRAWAL", "2021-09-19 10:54:31", -125.8),
+(4, 3, 3, 4, 1, "WITHDRAWAL", "2021-09-19 14:54:10", -817.58),
+(4, 3, "2XYZ", null, 0, "WITHDRAWAL", "2021-09-19 15:29:44", -570.16),
+(1, 5, 3, 2, 1, "WITHDRAWAL", "2021-09-19 17:50:27", -789.11),
+(1, 1, 4, 3, 1, "DEPOSIT", "2021-09-20 05:06:47", 711.52),
+(1, 5, 1, 1, 1, "WITHDRAWAL", "2021-09-20 07:38:58", -661.27),
+(3, 4, 1, 5, 1, "WITHDRAWAL", "2021-09-20 08:02:32", -157.2),
+(1, 1, 3, 4, 1, "WITHDRAWAL", "2021-09-20 11:27:32", -447.12),
+(4, 3, 1, 5, 1, "WITHDRAWAL", "2021-09-20 15:12:51", -16.58),
+(3, 2, 3, 4, 1, "WITHDRAWAL", "2021-09-20 18:00:42", -990.9),
+(4, 3, "2XYZ", null, 0, "WITHDRAWAL", "2021-09-21 09:38:10", -501.34),
+(1, 5, 4, 3, 1, "DEPOSIT", "2021-09-21 10:51:09", 830.12),
+(3, 4, 4, 3, 1, "DEPOSIT", "2021-09-21 12:42:46", 961.5),
+(3, 2, 1, 5, 1, "WITHDRAWAL", "2021-09-21 22:14:22", -903.36),
+(1, 1, "1XYZ", null, 0, "WITHDRAWAL", "2021-09-22 00:30:27", -980.49),
+(1, 5, 3, 2, 1, "WITHDRAWAL", "2021-09-22 04:52:22", -863.35),
+(3, 4, "1XYZ", null, 0, "WITHDRAWAL", "2021-09-22 05:12:37", -69.2),
+(1, 1, 4, 3, 1, "DEPOSIT", "2021-09-22 07:19:57", 518.18),
+(4, 3, 3, 4, 1, "DEPOSIT", "2021-09-22 09:07:32", 536.33),
+(3, 2, 4, 3, 1, "DEPOSIT", "2021-09-22 15:45:06", 203.17),
+(3, 4, 1, 1, 1, "WITHDRAWAL", "2021-09-23 07:53:50", -877.77);
+

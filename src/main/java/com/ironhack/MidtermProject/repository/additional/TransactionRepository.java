@@ -1,6 +1,6 @@
-package com.ironhack.MidtermProject.repository.utils;
+package com.ironhack.MidtermProject.repository.additional;
 
-import com.ironhack.MidtermProject.dao.utils.Transaction;
+import com.ironhack.MidtermProject.dao.additional.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

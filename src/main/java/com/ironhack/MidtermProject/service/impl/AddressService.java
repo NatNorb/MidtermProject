@@ -1,9 +1,7 @@
 package com.ironhack.MidtermProject.service.impl;
 
-import com.ironhack.MidtermProject.dao.users.Admin;
-import com.ironhack.MidtermProject.dao.utils.Address;
-import com.ironhack.MidtermProject.repository.users.AdminRepository;
-import com.ironhack.MidtermProject.repository.utils.AddressRepository;
+import com.ironhack.MidtermProject.dao.additional.Address;
+import com.ironhack.MidtermProject.repository.additional.AddressRepository;
 import com.ironhack.MidtermProject.service.interfaces.IAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
 package com.ironhack.MidtermProject.dao.users;
 
-import com.ironhack.MidtermProject.dao.utils.Address;
+import com.ironhack.MidtermProject.dao.additional.Address;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

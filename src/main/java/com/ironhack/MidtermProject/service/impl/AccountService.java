@@ -1,14 +1,14 @@
 package com.ironhack.MidtermProject.service.impl;
 
 import com.ironhack.MidtermProject.dao.users.ThirdParty;
-import com.ironhack.MidtermProject.dao.utils.Money;
-import com.ironhack.MidtermProject.dao.utils.Transaction;
+import com.ironhack.MidtermProject.dao.additional.Money;
+import com.ironhack.MidtermProject.dao.additional.Transaction;
 import com.ironhack.MidtermProject.dao.accounts.*;
 import com.ironhack.MidtermProject.dao.users.AccountHolder;
 import com.ironhack.MidtermProject.enums.Operations;
 import com.ironhack.MidtermProject.enums.Status;
 import com.ironhack.MidtermProject.repository.users.ThirdPartyRepository;
-import com.ironhack.MidtermProject.repository.utils.TransactionRepository;
+import com.ironhack.MidtermProject.repository.additional.TransactionRepository;
 import com.ironhack.MidtermProject.repository.accounts.*;
 import com.ironhack.MidtermProject.repository.users.AccountHolderRepository;
 import com.ironhack.MidtermProject.service.interfaces.IAccountService;

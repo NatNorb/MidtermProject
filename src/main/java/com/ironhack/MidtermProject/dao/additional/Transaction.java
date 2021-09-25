@@ -1,4 +1,4 @@
-package com.ironhack.MidtermProject.dao.utils;
+package com.ironhack.MidtermProject.dao.additional;
 
 
 import com.ironhack.MidtermProject.enums.Operations;
@@ -9,9 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @AllArgsConstructor
@@ -43,6 +41,18 @@ public class Transaction {
         this.accHolderId = accHolderId;
         this.timestamp = LocalDateTime.now();
        // this.timestamp = new Timestamp(System.currentTimeMillis());
+        this.foreignAccId = foreignAccId;
+        this.foreignAccHolderId = foreignAccHolderId;
+        this.internalOp = internalOp;
+    }
+
+    public Transaction(long accHolderId, long accId, String foreignAccHolderId, String foreignAccId, boolean internalOp,
+                       Operations operations, LocalDateTime timestamp, BigDecimal value) {
+        this.operations = operations;
+        this.accId = accId;
+        this.value = value;
+        this.accHolderId = accHolderId;
+        this.timestamp = timestamp;
         this.foreignAccId = foreignAccId;
         this.foreignAccHolderId = foreignAccHolderId;
         this.internalOp = internalOp;

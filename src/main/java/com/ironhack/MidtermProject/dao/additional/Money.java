@@ -1,4 +1,4 @@
-package com.ironhack.MidtermProject.dao.utils;
+package com.ironhack.MidtermProject.dao.additional;
 
 import javax.persistence.Embeddable;
 import java.math.RoundingMode;

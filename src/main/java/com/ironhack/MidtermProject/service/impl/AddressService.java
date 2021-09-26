@@ -18,13 +18,12 @@ public class AddressService implements IAddressService {
 
     public Address createAddress(Address address){
         Optional<Address> adrs = addressRepository.findByCityAndStreetAndNumberAndPostCode(address.getCity(), address.getStreet(), address.getNumber(), address.getPostCode());
-        long adrsId = adrs.get().getAddressId();
         if(adrs.isEmpty()){
             Address newAddress = new Address(address.getCity(), address.getStreet(), address.getNumber(), address.getPostCode());
             return addressRepository.save(newAddress);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "This Address already exists in the system. Its id is: " + adrsId);
+                    "This Address already exists in the system." );
         }
     }
 }

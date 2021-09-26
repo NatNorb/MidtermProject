@@ -1,0 +1,14 @@
+com.ironhack.MidtermProject
+com.ironhack.MidtermProject.controller.impl
+com.ironhack.MidtermProject.controller.interfaces
+com.ironhack.MidtermProject.dao.accounts
+com.ironhack.MidtermProject.dao.additional
+com.ironhack.MidtermProject.dao.users
+com.ironhack.MidtermProject.dto
+com.ironhack.MidtermProject.enums
+com.ironhack.MidtermProject.repository.accounts
+com.ironhack.MidtermProject.repository.additional
+com.ironhack.MidtermProject.repository.users
+com.ironhack.MidtermProject.security
+com.ironhack.MidtermProject.service.impl
+com.ironhack.MidtermProject.service.interfaces

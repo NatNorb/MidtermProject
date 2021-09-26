@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @AllArgsConstructor
@@ -20,6 +21,7 @@ public class ThirdParty {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @NotEmpty(message = "Hashed Key can't be empty or null.")
     private String hashedKey;
 
     public ThirdParty(String name, String hashedKey) {

@@ -44,30 +44,6 @@ public class AccountService implements IAccountService {
     @Autowired
     ThirdPartyRepository thirdPartyRepository;
 
-    public Account create(Checking checking) {
-        Optional<Checking> ch = checkingRepository.findById(checking.getId());
-
-        Optional<AccountHolder> accountHolder = accountHolderRepository.findById(checking.getAccountHolder().getAccHolderId());
-
-        if (ch.isEmpty()) {
-            if (accountHolder.get().howOld() > 24) {
-                Checking newChecking = new Checking(checking.getBalance(), checking.getPrimaryOwner(),
-                        checking.getSecondaryOwner(), checking.getSecretKey(), checking.getAccountHolder());
-                return checkingRepository.save(newChecking);
-            } else {
-                StudentChecking newStudentChecking = new StudentChecking(checking.getBalance(), checking.getPrimaryOwner(),
-                        checking.getSecondaryOwner(), checking.getSecretKey(), checking.getAccountHolder());
-                return studentCheckingRepository.save(newStudentChecking);
-            }
-        } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id already exist in the system.");
-        }
-
-    }
-
-    //public Transaction(Operations operations, long accId, BigDecimal value, long accHolderId,
-    //                       String foreignAccId, String foreignAccHolderId, boolean internalOp) {
-
 
     public void transaction(Long fromAcc, BigDecimal amount, Long toAcc) {
         Optional<Account> accDeposit = accountRepository.findById(toAcc);
@@ -108,41 +84,6 @@ public class AccountService implements IAccountService {
 
         }
 
-//    public void deposit(Long id, /*String owner,*/ BigDecimal amount, Long foreignId){
-//        Optional<Account> accDeposit = accountRepository.findById(id);
-//        Optional<Account> accWithdraw = accountRepository.findById(foreignId);
-//        if (accDeposit.isPresent()){
-//            Money initBal = accDeposit.get().getBalance();
-//            Money finalBal = new Money(initBal.increaseAmount(amount));
-//            accDeposit.get().setBalance(finalBal);
-//            accountRepository.save(accDeposit.get());
-//            Transaction newTransaction = new Transaction(Operations.DEPOSIT, accDeposit.get().getId(), amount, accDeposit.get().getAccountHolder().getAccHolderId(),
-//                    foreignId.toString(), accWithdraw.get().getAccountHolder().getAccHolderId().toString(), true );
-//            transactionRepository.save(newTransaction);
-//        } else {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id does not exists in the system.");
-//        }
-//
-//    }
-//    public void withdrawal(Long id, BigDecimal amount, Long foreignId){
-//        Optional<Account> accWithdrawal = accountRepository.findById(id);
-//        Optional<Account> accDepo = accountRepository.findById(foreignId);
-//        if (accWithdrawal.isPresent()){
-//            Money initBal = accWithdrawal.get().getBalance();
-//            Money finalBal = new Money(initBal.decreaseAmount(amount));
-//            if (finalBal.getAmount().compareTo(BigDecimal.ZERO) >= 0){
-//                accWithdrawal.get().setBalance(finalBal);
-//                accountRepository.save(accWithdrawal.get());
-//                Transaction newTransaction = new Transaction(Operations.WITHDRAWAL, accWithdrawal.get().getId(), amount.multiply(new BigDecimal("-1")), accWithdrawal.get().getAccountHolder().getAccHolderId(),
-//                        foreignId.toString(), accWithdraw.get().getAccountHolder().getAccHolderId().toString(), true ););
-//                transactionRepository.save(newTransaction);
-//            } else {
-//                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "There is not enough resources");
-//            }
-//        } else {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id does not exists in the system.");
-//        }
-//    }
 
         public void penaltyFee (Long id){
             Optional<Savings> s = savingsRepository.findById(id);

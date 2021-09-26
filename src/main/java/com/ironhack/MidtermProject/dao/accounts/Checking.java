@@ -2,12 +2,14 @@ package com.ironhack.MidtermProject.dao.accounts;
 
 import com.ironhack.MidtermProject.dao.additional.Money;
 import com.ironhack.MidtermProject.dao.users.AccountHolder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 //@AllArgsConstructor
@@ -25,10 +27,8 @@ public class Checking extends Account{
         super(balance, primaryOwner, secondaryOwner, secretKey,accountHolder);
     }
 
-    //TODO: 12.09.2021   When creating a new Checking account, if the primaryOwner is less than 24,
-    // a StudentChecking account should be created otherwise a regular Checking Account should be created.
+    public Checking(Money balance, String primaryOwner, String secondaryOwner, String secretKey, LocalDate creationDate, AccountHolder accountHolder) {
+        super(balance, primaryOwner, secondaryOwner, secretKey, creationDate, accountHolder);
+    }
 
-
-    // TODO: 12.09.2021 If any account drops below the minimumBalance,
-    //  the penaltyFee should be deducted from the balance automatically
 }

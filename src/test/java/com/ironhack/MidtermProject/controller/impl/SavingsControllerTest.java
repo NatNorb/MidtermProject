@@ -9,6 +9,9 @@ import com.ironhack.MidtermProject.dao.additional.Address;
 import com.ironhack.MidtermProject.dao.additional.Money;
 import com.ironhack.MidtermProject.dao.additional.Transaction;
 import com.ironhack.MidtermProject.dao.users.AccountHolder;
+import com.ironhack.MidtermProject.dto.AccountHolderDTO;
+import com.ironhack.MidtermProject.dto.SavingsDTO;
+import com.ironhack.MidtermProject.dto.StudentCheckingDTO;
 import com.ironhack.MidtermProject.repository.accounts.AccountRepository;
 import com.ironhack.MidtermProject.repository.accounts.SavingsRepository;
 import com.ironhack.MidtermProject.repository.additional.AddressRepository;
@@ -41,16 +44,16 @@ class SavingsControllerTest {
     private WebApplicationContext webApplicationContext;
 
     @Autowired
+    private Data data;
+
+    @Autowired
     private SavingsRepository savingsRepository;
 
     @Autowired
-    private AccountRepository accountRepository;
+    private AccountHolderRepository accountHolderRepository;
 
     @Autowired
     private AddressRepository addressRepository;
-
-    @Autowired
-    private AccountHolderRepository accountHolderRepository;
 
     private MockMvc mockMvc;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -58,32 +61,13 @@ class SavingsControllerTest {
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-
-        List<Address> addressList = addressRepository.saveAll(List.of(
-                new Address("Shire","Shire", "8", "12-345"),
-                new Address("Gondor", "Mordor St", "45", "456-789"),
-                new Address("Rohan", "Castle","12/100", "159-753")
-        ));
-
-        List<AccountHolder> accountHolderList = accountHolderRepository.saveAll(List.of(
-                new AccountHolder("Bilbo", LocalDate.of(1975,9,21), "bilbo@baggins.com",  addressList.get(0)),
-                new AccountHolder("Frodo",LocalDate.of(2000,12,31), "frodo@baggins.com",  addressList.get(0)),
-                new AccountHolder("Aragorn",LocalDate.of(1979,02,7), "aragorn@king.com",  addressList.get(1)),
-                new AccountHolder("Eowina",LocalDate.of(1985,10,4), "eowina@rohan.com",  addressList.get(2))
-        ));
-
-        List<Savings> transactionList = savingsRepository.saveAll(
-                List.of(
-                        new Savings(new Money(new BigDecimal(5000)), "Aragorn", null, "ABC", accountHolderList.get(2), new BigDecimal("0"), new BigDecimal("0")),
-                        new Savings(new Money(new BigDecimal(1000)), "Bilbo", null, "BCD",  accountHolderList.get(0), new BigDecimal("110"), new BigDecimal("0.25"))
-        ));
+        data.cleanAllTables();
+        data.populateRepos();
     }
 
     @AfterEach
     void tearDown() {
-        savingsRepository.deleteAll();
-        accountHolderRepository.deleteAll();
-        addressRepository.deleteAll();
+  //      data.cleanAllTables();
     }
 
     @Test
@@ -92,15 +76,20 @@ class SavingsControllerTest {
         assertTrue(result.getResponse().getContentAsString().contains("Aragorn"));
         assertTrue(result.getResponse().getContentAsString().contains("BCD"));
         assertFalse(result.getResponse().getContentAsString().contains("Eowina"));
-
-
     }
 
     @Test
     void createSaving() throws Exception {
-        Savings newSaving = new Savings(
-                new Money(new BigDecimal(1000)), "Frodo", null, "IJK",  accountHolderRepository.getById(2l), new BigDecimal("5010"), new BigDecimal("0.25"));
-        String body = objectMapper.writeValueAsString(newSaving);
+        SavingsDTO sDTO = new SavingsDTO();
+        Money m = new Money(BigDecimal.valueOf(1000));
+        sDTO.setId(100l);
+        sDTO.setBalance(m);
+        sDTO.setPrimaryOwner("Frodo");
+        sDTO.setSecretKey("IJK");
+        sDTO.setAccHolderId(2l);
+        sDTO.setMinimumBalance(BigDecimal.valueOf(999));
+
+        String body = objectMapper.writeValueAsString(sDTO);
         MvcResult result = mockMvc.perform(post("/admin/savings").content(body)
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isCreated()).andReturn();
         assertTrue(result.getResponse().getContentAsString().contains("Frodo"));
@@ -108,13 +97,14 @@ class SavingsControllerTest {
 
     @Test
     void modifySavingsBalance() throws Exception {
-        Savings updateBalance = new Savings();
-        updateBalance.setBalance(new Money(new BigDecimal("10")));
+        SavingsDTO sDTO = new SavingsDTO();
+        sDTO.setBalance(new Money(new BigDecimal("1234567.89")));
 
-        String body = objectMapper.writeValueAsString(updateBalance);
-        mockMvc.perform(patch("/savings/1").content(body)
+        String body = objectMapper.writeValueAsString(sDTO);
+        mockMvc.perform(patch("/admin/savings/4").content(body)
                 .contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNoContent()).andReturn();
-        assertEquals(accountRepository.findById(1l).get().getBalance(), 10);
-
+        assertEquals(1234567.89, savingsRepository.findById(4l).get().getBalance().getAmount());
     }
+
+
 }

@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -26,19 +28,17 @@ public abstract class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @AttributeOverrides({
             @AttributeOverride(name = "amount", column = @Column(name = "balance"))
     })
     @Embedded
+    @NotNull(message = "Balance can't be empty or null.")
     private Money balance;
-
     private String secretKey;
     private String primaryOwner;
     private String secondaryOwner;
     private final BigDecimal PENALTY_FEE = new BigDecimal("40");
     private LocalDate creationDate;
-
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -55,6 +55,18 @@ public abstract class Account {
         this.primaryOwner = primaryOwner;
         this.secondaryOwner = secondaryOwner;
         this.creationDate = LocalDate.now();
+        this.status = Status.ACTIVE;
+        this.accountHolder = accountHolder;
+    }
+
+    public Account(Money balance, String primaryOwner,
+                   String secondaryOwner, String secretKey,
+                   LocalDate creationDate, AccountHolder accountHolder) {
+        this.balance = balance;
+        this.secretKey = secretKey;
+        this.primaryOwner = primaryOwner;
+        this.secondaryOwner = secondaryOwner;
+        this.creationDate = creationDate;
         this.status = Status.ACTIVE;
         this.accountHolder = accountHolder;
     }

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.jpa.repository.Query;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -38,9 +39,5 @@ public class AccountHolder {
     public int howOld() {
         return Period.between(this.dateOfBirth,LocalDate.now()).getYears();
     }
-
-
-    //    @OneToMany(mappedBy = "accountHolder")
-//    private Set<Checking> checking;
 
 }

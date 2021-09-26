@@ -23,28 +23,13 @@ public class SavingsService implements ISavingsService {
     public AccountRepository accountRepository;
 
     public Savings createSavings(Savings savings){
-        Optional<Savings> s = savingsRepository.findById(savings.getId());
-        double interestRate;
-        int minimumBalance;
-
-        if(s.isEmpty()){
-
-//            if (savings.getInterestRate() <= 0 || savings.getInterestRate() > 0.5){
-//                interestRate = 0.0025;
-//            } interestRate = savings.getInterestRate();
-//
-//            if (savings.getMinimumBalance() < 100){
-//                minimumBalance = 1000;
-//            } minimumBalance = savings.getMinimumBalance();
 
             Savings newSavings = new Savings(savings.getBalance(), savings.getPrimaryOwner(),
                         savings.getSecondaryOwner(), savings.getSecretKey(), savings.getAccountHolder(),
-//                        minimumBalance, interestRate);
+
                     savings.getMinimumBalance(), savings.getInterestRate());
                 return savingsRepository.save(newSavings);
-            } else {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id already exists in the system.");
-        }
+
     }
 
     public void modifySavingsBalance(Long id, Savings savings){
@@ -57,7 +42,4 @@ public class SavingsService implements ISavingsService {
         }
     }
 
-    public void addInterest(){
-
-    }
 }

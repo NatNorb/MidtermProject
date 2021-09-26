@@ -31,8 +31,6 @@ public class Transaction {
     private String foreignAccHolderId;
     private boolean internalOp;
 
-
-
     public Transaction(Operations operations, long accId, BigDecimal value, long accHolderId,
                      String foreignAccId, String foreignAccHolderId, boolean internalOp) {
         this.operations = operations;

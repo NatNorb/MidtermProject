@@ -25,19 +25,19 @@ public class CreditCardService implements ICreditCardService {
     public AccountRepository accountRepository;
 
     public CreditCard createCreditCard(CreditCard creditCard){
-        Optional<CreditCard> cc = creditCardRepository.findById(creditCard.getId());
-        if(cc.isEmpty()){
-            try{
+       // Optional<CreditCard> cc = creditCardRepository.findById(creditCard.getId());
+       // if(cc.isEmpty()){
+           // try{
                 CreditCard newCreditCard = new CreditCard(creditCard.getBalance(), creditCard.getPrimaryOwner(), creditCard.getSecondaryOwner(), creditCard.getSecretKey(),
                         creditCard.getAccountHolder(), creditCard.getCreditLimit(), creditCard.getInterestRate());
                 return creditCardRepository.save(newCreditCard);
-            } catch (Exception e) {
+           /* } catch (Exception e) {
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Department and / or status values not valid.");
-            }
+            }*/
 
-        } else {
+       /* } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id already exists in the system.");
-        }
+        }*/
     }
 
     public void modifyCreditCardBalance(Long id, CreditCard creditCard){
@@ -50,7 +50,4 @@ public class CreditCardService implements ICreditCardService {
         }
     }
 
-    public void addInterest(){
-
-    }
 }

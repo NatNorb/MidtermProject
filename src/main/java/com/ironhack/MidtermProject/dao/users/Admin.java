@@ -25,6 +25,4 @@ public class Admin {
         this.name = name;
     }
 
-    // Admins can create new accounts.
-    // When creating a new account they can create Checking, Savings, or CreditCard Accounts.
 }

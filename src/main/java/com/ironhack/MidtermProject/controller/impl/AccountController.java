@@ -24,22 +24,10 @@ public class AccountController implements IAccountController {
 
     @Autowired
     AccountRepository accountRepository;
-    @Autowired
-    CheckingRepository checkingRepository;
-    @Autowired
-    SavingsRepository savingsRepository;
-    @Autowired
-    CreditCardRepository creditCardRepository;
+
     @Autowired
     IAccountService accountService;
-    @Autowired
-    ICheckingService checkingService;
-    @Autowired
-    ISavingsService savingsService;
-    @Autowired
-    ICreditCardService creditCardService;
-    @Autowired
-    TransactionRepository transactionRepository;
+
 
     @GetMapping("/admin/account")
     @ResponseStatus(HttpStatus.OK)
@@ -60,7 +48,6 @@ public class AccountController implements IAccountController {
     public void thirdPartyOperation(@PathVariable String hashedKey, @PathVariable BigDecimal amount,
                                     @PathVariable Long accId, @PathVariable String secretKey, @PathVariable Operations operation){
         accountService.transactionThirdParty(accId, secretKey, amount, hashedKey, operation);
-
     }
 
     @PutMapping("/admin/penaltyFee/{id}")
@@ -93,8 +80,5 @@ public class AccountController implements IAccountController {
     public void fraudDetectionV2(){
         accountService.fraudDetectionV2();
     }
-
-
-
 
 }

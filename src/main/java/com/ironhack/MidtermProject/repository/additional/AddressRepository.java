@@ -2,6 +2,7 @@ package com.ironhack.MidtermProject.repository.additional;
 
 import com.ironhack.MidtermProject.dao.additional.Address;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

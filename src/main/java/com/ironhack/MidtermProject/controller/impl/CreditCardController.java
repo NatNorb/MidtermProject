@@ -35,14 +35,12 @@ public class CreditCardController implements ICreditCardController {
         return creditCardRepository.findAll();
     }
 
-    //Admin can create new account - create Checking, Savings, CreditCard
-     @PostMapping("/credit-card")
+    @PostMapping("/credit-card")
     @ResponseStatus(HttpStatus.CREATED)
     public Account createCreditCard(@RequestBody @Valid CreditCard creditCard){
         return creditCardService.createCreditCard(creditCard);
     }
 
-    //Admins should be able to access the balance for any account and to modify it.
     @PatchMapping("/credit-card/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void modifyCreditCardBalance(@PathVariable Long id, @RequestBody @Valid CreditCard creditCard){

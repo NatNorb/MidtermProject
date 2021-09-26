@@ -48,6 +48,4 @@ public class SavingsController implements ISavingdController {
     public void modifySavingsBalance(@PathVariable Long id, @RequestBody @Valid Savings savings){
         savingsService.modifySavingsBalance(id, savings);
     }
-
-
 }

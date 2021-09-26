@@ -5,19 +5,23 @@ import com.ironhack.MidtermProject.dao.additional.Transaction;
 import com.ironhack.MidtermProject.dao.users.AccountHolder;
 import com.ironhack.MidtermProject.dao.additional.Address;
 import com.ironhack.MidtermProject.dao.additional.Money;
+import com.ironhack.MidtermProject.dao.users.Role;
 import com.ironhack.MidtermProject.dao.users.ThirdParty;
+import com.ironhack.MidtermProject.dao.users.User;
 import com.ironhack.MidtermProject.enums.Operations;
 import com.ironhack.MidtermProject.repository.accounts.*;
+import com.ironhack.MidtermProject.repository.additional.TestsRepository;
 import com.ironhack.MidtermProject.repository.additional.TransactionRepository;
 import com.ironhack.MidtermProject.repository.users.AccountHolderRepository;
 import com.ironhack.MidtermProject.repository.additional.AddressRepository;
+import com.ironhack.MidtermProject.repository.users.RoleRepository;
 import com.ironhack.MidtermProject.repository.users.ThirdPartyRepository;
+import com.ironhack.MidtermProject.repository.users.UserRepository;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.List;
 
 @Component
@@ -33,12 +37,16 @@ public class Data {
     final ThirdPartyRepository thirdPartyRepository;
     final AddressRepository addressRepository;
     final TransactionRepository transactionRepository;
+    final UserRepository userRepository;
+    final RoleRepository roleRepository;
+
+    final TestsRepository testsRepository;
 
     public Data(CheckingRepository checkingRepository, CreditCardRepository creditCardRepository,
                 SavingsRepository savingsRepository, StudentCheckingRepository studentCheckingRepository,
                 AccountRepository accountRepository, AccountHolderRepository accountHolderRepository,
                 AddressRepository addressRepository, TransactionRepository transactionRepository,
-                ThirdPartyRepository thirdPartyRepository ) {
+                ThirdPartyRepository thirdPartyRepository, UserRepository userRepository, RoleRepository roleRepository, TestsRepository testsRepository) {
         this.checkingRepository = checkingRepository;
         this.creditCardRepository = creditCardRepository;
         this.savingsRepository = savingsRepository;
@@ -48,18 +56,22 @@ public class Data {
         this.addressRepository = addressRepository;
         this.transactionRepository = transactionRepository;
         this.thirdPartyRepository = thirdPartyRepository;
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.testsRepository = testsRepository;
     }
 
     List<Checking> checkingList;
     List<CreditCard> creditCardList;
     List<Savings> savingsList;
     List<StudentChecking> studentCheckingList;
-    List<Account> accountList;
 
     List<AccountHolder> accountHolderList;
     List<ThirdParty> thirdPartyList;
     List<Address> addressList;
     List<Transaction> transactionList;
+    List<User> userList;
+    List<Role> roleList;
 
     public void populateRepos(){
 
@@ -77,21 +89,27 @@ public class Data {
         ));
 
         checkingList = checkingRepository.saveAll(List.of(
-                new Checking(new Money(new BigDecimal(12000)), "Bilbo", "Frodo", "DEF", accountHolderList.get(0))
+                new Checking(new Money(new BigDecimal(12000)), "Bilbo", "Frodo", "DEF", LocalDateTime.of(2021,9,14,0,0,0).toLocalDate(), accountHolderList.get(0)),
+                new Checking(new Money(new BigDecimal(100)), "Aragorn", null, "EFG", LocalDateTime.of(2020,11,30,0,0,0).toLocalDate(), accountHolderList.get(2))
+        ));
+
+        studentCheckingList = studentCheckingRepository.saveAll(List.of(
+                new StudentChecking(new Money(new BigDecimal(1100)), "Frodo", "Bilbo", "GHI", LocalDateTime.of(2021,4,4,0,0,0).toLocalDate(), accountHolderList.get(1))
         ));
 
         savingsList = savingsRepository.saveAll(List.of(
-                new Savings(new Money(new BigDecimal(5000)), "Aragorn", null, "ABC", accountHolderList.get(2), new BigDecimal("0"), new BigDecimal("0")),
-                new Savings(new Money(new BigDecimal(1000)), "Bilbo", null, "BCD",  accountHolderList.get(0), new BigDecimal("110"), new BigDecimal("0.25"))
+                new Savings(new Money(new BigDecimal(5000)), "Aragorn", null, "ABC", LocalDateTime.of(2020,2,16,0,0,0).toLocalDate(), accountHolderList.get(2), new BigDecimal("0"), new BigDecimal("0.")),
+                new Savings(new Money(new BigDecimal(1000)), "Bilbo", null, "BCD",  LocalDateTime.of(2021,5,1,0,0,0).toLocalDate(), accountHolderList.get(0), new BigDecimal("110"), new BigDecimal("0.25"))
         ));
 
         creditCardList = creditCardRepository.saveAll(List.of(
-                new CreditCard(new Money( new BigDecimal(1200)), "Eowina", null, "CDE", accountHolderList.get(3), 100, new BigDecimal("0.2"))
+                new CreditCard(new Money( new BigDecimal(1200)), "Eowina", null, "CDE", LocalDateTime.of(2021,8,14,0,0,0).toLocalDate(), accountHolderList.get(3), 100, new BigDecimal("0.2")),
+                new CreditCard(new Money( new BigDecimal(500)), "Aragorn", null, "FGH", LocalDateTime.of(2020,3,19,0,0,0).toLocalDate(), accountHolderList.get(2), 100, new BigDecimal("0.2"))
         ));
 
         thirdPartyList = thirdPartyRepository.saveAll(List.of(
-                        new ThirdParty("Bank of Middle-earth","1XYZ"),
-                        new ThirdParty("Eye of Sauron Company", "7EYE")
+                new ThirdParty("Bank of Middle-earth","1XYZ"),
+                new ThirdParty("Eye of Sauron Company", "7EYE")
         ));
 
         transactionList = transactionRepository.saveAll(List.of(
@@ -121,7 +139,23 @@ public class Data {
                 new Transaction(1, 1, "4", "3", true, Operations.DEPOSIT, LocalDateTime.of(2021,9,22, 07,19,57), new BigDecimal("518.18")),
                 new Transaction(4, 3, "3", "4", true, Operations.DEPOSIT, LocalDateTime.of(2021,9,22, 9,07,32), new BigDecimal("536.33")),
                 new Transaction(3, 2, "4", "3", true, Operations.DEPOSIT, LocalDateTime.of(2021,9,22, 15,45,06), new BigDecimal("203.17")),
-                new Transaction(3, 4, "1", "5", true, Operations.WITHDRAWAL, LocalDateTime.of(2021,9,23, 07,53,50), new BigDecimal("-877.77"))
+                new Transaction(3, 4, "1", "5", true, Operations.WITHDRAWAL, LocalDateTime.of(2021,9,23, 07,53,50), new BigDecimal("-877.77")),
+                new Transaction(3, 2, "1", "5", true, Operations.WITHDRAWAL, LocalDateTime.of(2021,9,21, 22,14,22), new BigDecimal("-9.36")),
+                new Transaction(3, 2, "1", "5", true, Operations.WITHDRAWAL, LocalDateTime.of(2021,9,21, 22,14,22), new BigDecimal("-3.36")),
+                new Transaction(3, 2, "1", "5", true, Operations.WITHDRAWAL, LocalDateTime.of(2021,9,21, 22,14,22), new BigDecimal("-90.36")),
+                new Transaction(1, 1, "4", "3", true, Operations.DEPOSIT, LocalDateTime.now().minusDays(1), new BigDecimal("1500.00"))
+        ));
+
+        userList = userRepository.saveAll(List.of(
+                new User("account-holder", "$2a$10$MSzkrmfd5ZTipY0XkuCbAejBC9g74MAg2wrkeu8/m1wQGXDihaX3e"),
+                new User("third-party", "$2a$15$NAYChDNT4kWKytFJLqNm0.vN9oNv0l9wa1acKQkDd7uSlgI6GpyIO"),
+                new User("admin", "$2a$15$LNyWbikF3gn83ZnBBG1L8OxG9BXKe5smU2I5FF0quoJD9qtXIRBCm")
+        ));
+
+        roleList = roleRepository.saveAll(List.of(
+                new Role("ACCOUNT-HOLDER", userList.get(0)),
+                new Role("ADMIN", userList.get(2)),
+                new Role("THIRD-PARTY", userList.get(1))
         ));
 
         System.out.println("DATA SUCCESSFULLY IMPLEMENTED");
@@ -134,7 +168,18 @@ public class Data {
         addressRepository.deleteAll();
         thirdPartyRepository.deleteAll();
         transactionRepository.deleteAll();
+        userRepository.deleteAll();
+        roleRepository.deleteAll();
 
+        testsRepository.alterTableAccount();
+        testsRepository.alterTableAccountHolder();
+        testsRepository.alterTableAddress();
+        testsRepository.alterTableThirdParty();
+        testsRepository.alterTableTransaction();
+        testsRepository.alterTableUser();
+        testsRepository.alterTableRole();
     }
 
+
 }
+

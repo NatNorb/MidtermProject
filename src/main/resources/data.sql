@@ -13,13 +13,14 @@ INSERT INTO account_holder (acc_holder_id, date_of_birth, mailing_address, name,
 INSERT INTO account (acc_type, id, penalty_fee, balance, currency, creation_date, primary_owner, secondary_owner, secret_key, status, minimum_balance, monthly_maintenance_fee, credit_limit, interest_rate, acc_holder_id) VALUES
 ("checking", 1, 40, 12000, "USD", "2021-09-14", "Bilbo", "Frodo", "ABC", "ACTIVE", 250, 12, null, null, 1),
 ("saving", 2, 40, 50000, "USD","2020-04-16", "Aragorn", null, "BCD", "ACTIVE", 1000, null, null, 0.0025, 3),
-("credit_card", 3, 40, 1000,"USD","2019-02-09", "Eowina", null, "CDE", "ACTIVE", null , null, 100, 0.2, 4),
-("credit_card", 4, 40, 1000,"USD","2021-08-14", "Aragorn", null, "CDE", "ACTIVE", null , null, 100, 0.15, 3),
-("saving", 5, 40, 1000, "USD","2018-06-06", "Bilbo", null, "BCD", "ACTIVE", 1000, null, null, 0.25, 1);
+("student", 3, 40, 1100, "USD", "2021-09-23", "Frodo", "Bilbo", "GHI", "ACTIVE", null, null, null, null, 2),
+("credit_card", 4, 40, 1000,"USD","2019-02-09", "Eowina", null, "CDE", "ACTIVE", null , null, 100, 0.2, 4),
+("credit_card", 5, 40, 1000,"USD","2021-08-14", "Aragorn", null, "CDE", "ACTIVE", null , null, 100, 0.15, 3),
+("saving", 6, 40, 1000, "USD","2018-06-06", "Bilbo", null, "BCD", "ACTIVE", 1000, null, null, 0.25, 1);
 
 INSERT INTO third_party (id, hashed_key, name) VALUES
-(1, "1XYZ", "Legolas"),
-(2, "2XYZ", "Gimli");
+(1, "1XXX", "Bank of Middle-earth"),
+(2, "7EYE", "Eye of Sauron Company");
 
 INSERT INTO user (username, password) VALUES
 ("account-holder", "$2a$10$MSzkrmfd5ZTipY0XkuCbAejBC9g74MAg2wrkeu8/m1wQGXDihaX3e"), --123456

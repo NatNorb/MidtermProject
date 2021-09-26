@@ -29,12 +29,9 @@ public class StudentCheckingController implements IStudentCheckingController {
         return studentCheckingRepository.findAll();
     }
 
-
-    //Admins should be able to access the balance for any account and to modify it.
     @PatchMapping("/student/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void modifyCheckingBalance(@PathVariable Long id, @RequestBody @Valid StudentChecking studentChecking) {
         studentCheckingService.modifyStudentCheckingBalance(id, studentChecking);
-
     }
 }

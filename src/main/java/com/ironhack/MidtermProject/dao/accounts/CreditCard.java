@@ -10,6 +10,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @AllArgsConstructor
@@ -27,6 +28,13 @@ public class CreditCard extends Account{
     public CreditCard(Money balance, String primaryOwner, String secondaryOwner, String secretKey, AccountHolder accountHolder,
                       int creditLimit, BigDecimal interestRate) {
         super(balance, primaryOwner, secondaryOwner, secretKey, accountHolder);
+        setCreditLimit(creditLimit);
+        setInterestRate(interestRate);
+    }
+
+    public CreditCard(Money balance, String primaryOwner, String secondaryOwner, String secretKey, LocalDate creationDate, AccountHolder accountHolder,
+                      int creditLimit, BigDecimal interestRate) {
+        super(balance, primaryOwner, secondaryOwner, secretKey, creationDate, accountHolder);
         setCreditLimit(creditLimit);
         setInterestRate(interestRate);
     }

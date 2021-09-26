@@ -30,11 +30,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             "having sum(case when date(timestamp) = DATE_ADD(date(sysdate()), interval -1 day) then abs(value) else 0 end) > " +
             "sum(case when date(timestamp) = DATE_ADD(date(sysdate()), interval -2 day) then abs(value) else 0 end)*1.5 = 1 ",  nativeQuery = true)
     List<Optional<Long>> listOfAccId();
-//
-//
-//                   "SELECT acc_id, COUNT(*) AS count " +
-//                   "FROM MinTime MT CROSS JOIN transaction T " +
-//                   "GROUP BY acc_id, DATE_ADD(MT.min_time, interval TIME_TO_SEC(timediff(timestamp, min_time)) second)", nativeQuery = true)
-
 
 }

@@ -36,18 +36,15 @@ public class CheckingController implements ICheckingController {
         return checkingRepository.findAll();
     }
 
-    //Admin can create new account - create Checking, Savings, CreditCard
     @PostMapping("/checking")
     @ResponseStatus(HttpStatus.CREATED)
     public Account createChecking(@RequestBody @Valid Checking checking){
         return checkingService.createChecking(checking);
     }
 
-    //Admins should be able to access the balance for any account and to modify it.
     @PatchMapping("/checking/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void modifyCheckingBalance(@PathVariable Long id, @RequestBody @Valid Checking checking){
         checkingService.modifyCheckingBalance(id, checking);
-
     }
 }

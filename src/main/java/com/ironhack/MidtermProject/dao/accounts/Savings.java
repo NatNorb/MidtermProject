@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 //@AllArgsConstructor
@@ -22,16 +23,18 @@ public class Savings extends Account{
 
     @Digits(integer = 1, fraction = 4)
     private BigDecimal interestRate = BigDecimal.ZERO;
-//    BigDecimal
-//
-//    Integer perc = 5;
-//    BigDecimal spread = BigDecimal.ZERO;
-//    BigDecimal perc = spread.setScale(perc,BigDecimal.ROUND_HALF_UP);
 
 
     public Savings(Money balance, String primaryOwner, String secondaryOwner, String secretKey, AccountHolder accountHolder,
                    BigDecimal minimumBalance, BigDecimal interestRate) {
         super(balance, primaryOwner, secondaryOwner, secretKey, accountHolder);
+        setMinimumBalance(minimumBalance);
+        setInterestRate(interestRate);
+    }
+
+    public Savings(Money balance, String primaryOwner, String secondaryOwner, String secretKey, LocalDate creationDate, AccountHolder accountHolder,
+                   BigDecimal minimumBalance, BigDecimal interestRate) {
+        super(balance, primaryOwner, secondaryOwner, secretKey, creationDate, accountHolder);
         setMinimumBalance(minimumBalance);
         setInterestRate(interestRate);
     }
@@ -50,7 +53,4 @@ public class Savings extends Account{
             this.minimumBalance = minimumBalance;
         }
     }
-
-    // TODO: 12.09.2021 If any account drops below the minimumBalance,
-    //  the penaltyFee should be deducted from the balance automatically
 }

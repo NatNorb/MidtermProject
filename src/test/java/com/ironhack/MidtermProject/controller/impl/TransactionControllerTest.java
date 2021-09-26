@@ -32,9 +32,6 @@ class TransactionControllerTest {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    @Autowired
-    private Data data;
-
     private MockMvc mockMvc;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -63,6 +60,5 @@ class TransactionControllerTest {
         assertTrue(result.getResponse().getContentAsString().contains("338.66"));
         assertTrue(result.getResponse().getContentAsString().contains("2021-09-19"));
         assertFalse(result.getResponse().getContentAsString().contains("Bilbo"));
-
     }
 }

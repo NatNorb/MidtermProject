@@ -28,11 +28,11 @@ public class CheckingService implements ICheckingService {
     public AccountHolderRepository accountHolderRepository;
 
     public Account createChecking(Checking checking) {
-        Optional<Checking> ch = checkingRepository.findById(checking.getId());
+       // Optional<Checking> ch = checkingRepository.findById(checking.getId());
 
         Optional<AccountHolder> accountHolder = accountHolderRepository.findById(checking.getAccountHolder().getAccHolderId());
 
-        if (ch.isEmpty()){
+        //if (ch.isEmpty()){
             if (accountHolder.get().howOld() > 24){
                 Checking newChecking = new Checking(checking.getBalance(), checking.getPrimaryOwner(),
                         checking.getSecondaryOwner(), checking.getSecretKey(),  checking.getAccountHolder());
@@ -42,9 +42,9 @@ public class CheckingService implements ICheckingService {
                         checking.getSecondaryOwner(), checking.getSecretKey(),  checking.getAccountHolder());
                 return studentCheckingRepository.save(newStudentChecking);
             }
-        } else {
+        /*} else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The account id already exists in the system.");
-        }
+        }*/
 
     }
 

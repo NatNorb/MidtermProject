@@ -6,5 +6,4 @@ public interface ICreditCardService {
 
     CreditCard createCreditCard (CreditCard creditCard);
     void modifyCreditCardBalance(Long id, CreditCard creditCard);
-    void addInterest();
 }

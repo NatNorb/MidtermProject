@@ -24,7 +24,7 @@ public class AddressService implements IAddressService {
             return addressRepository.save(newAddress);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "This Address already exists in the system. It's id is: " + adrsId);
+                    "This Address already exists in the system. Its id is: " + adrsId);
         }
     }
 }
